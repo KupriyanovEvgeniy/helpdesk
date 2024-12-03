@@ -12,7 +12,8 @@ import java.util.UUID;
         @Index(name = "IDX_REPAIR_REQUEST_USER", columnList = "USER_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_ROOM", columnList = "ROOM_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_EQUIPMENT", columnList = "EQUIPMENT_ID"),
-        @Index(name = "IDX_REPAIR_REQUEST_FAULT_TYPE", columnList = "FAULT_TYPE_ID")
+        @Index(name = "IDX_REPAIR_REQUEST_FAULT_TYPE", columnList = "FAULT_TYPE_ID"),
+        @Index(name = "IDX_REPAIR_REQUEST_LOCATION", columnList = "LOCATION_ID")
 })
 @Entity
 public class RepairRequest {
@@ -23,9 +24,14 @@ public class RepairRequest {
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @JoinColumn(name = "LOCATION_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Location location;
     @JoinColumn(name = "ROOM_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
+    @Column(name = "EQUIPMENT_TYPE")
+    private String equipmentType;
     @JoinColumn(name = "EQUIPMENT_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Equipment equipment;
@@ -35,6 +41,22 @@ public class RepairRequest {
     @InstanceName
     @Column(name = "DESCRIPTION", length = 1000)
     private String description;
+
+    public EquipmentType getEquipmentType() {
+        return equipmentType == null ? null : EquipmentType.fromId(equipmentType);
+    }
+
+    public void setEquipmentType(EquipmentType equipmentType) {
+        this.equipmentType = equipmentType == null ? null : equipmentType.getId();
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public String getDescription() {
         return description;
