@@ -2,7 +2,6 @@ package com.company.helpdesk.view.user;
 
 import com.company.helpdesk.entity.User;
 import com.company.helpdesk.view.main.MainView;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
@@ -14,9 +13,8 @@ import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
+
 import java.util.Objects;
-import java.util.TimeZone;
 
 @Route(value = "users/:id", layout = MainView.class)
 @ViewController(id = "User.detail")
@@ -31,8 +29,6 @@ public class UserDetailView extends StandardDetailView<User> {
     @ViewComponent
     private PasswordField confirmPasswordField;
     @ViewComponent
-    private ComboBox<String> timeZoneField;
-    @ViewComponent
     private MessageBundle messageBundle;
     @Autowired
     private MessageTools messageTools;
@@ -44,10 +40,6 @@ public class UserDetailView extends StandardDetailView<User> {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Subscribe
-    public void onInit(final InitEvent event) {
-        timeZoneField.setItems(List.of(TimeZone.getAvailableIDs()));
-    }
 
     @Subscribe
     public void onInitEntity(final InitEntityEvent<User> event) {

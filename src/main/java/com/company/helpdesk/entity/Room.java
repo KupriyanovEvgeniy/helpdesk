@@ -1,6 +1,7 @@
 package com.company.helpdesk.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 
@@ -30,6 +31,7 @@ public class Room {
         this.location = location;
     }
 
+    @InstanceName
     public String getRoomName() {
         return roomName;
     }

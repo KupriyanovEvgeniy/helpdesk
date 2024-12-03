@@ -71,6 +71,7 @@ public class User implements JmixUserDetails {
         return room;
     }
 
+    @InstanceName
     public void setRoom(Room room) {
         this.room = room;
     }
@@ -79,6 +80,7 @@ public class User implements JmixUserDetails {
         return location;
     }
 
+    @InstanceName
     public void setLocation(Location location) {
         this.location = location;
     }

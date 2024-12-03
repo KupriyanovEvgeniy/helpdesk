@@ -1,6 +1,7 @@
 package com.company.helpdesk.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +21,7 @@ public class Location {
     @Column(name = "LOCATION_NAME")
     private String locationName;
 
+    @InstanceName
     public String getLocationName() {
         return locationName;
     }
