@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://repairRequestListView.title"
+      focusComponent="repairRequestsDataGrid">
+    <data>
+        <collection id="repairRequestsDc"
+                    class="com.company.helpdesk.entity.RepairRequest">
+            <fetchPlan extends="_instance_name">
+                <property name="user" fetchPlan="_instance_name">
+                    <property name="surName"/>
+                    <property name="jobTitle"/>
+                </property>
+                <property name="room" fetchPlan="_instance_name">
+                    <property name="roomName"/>
+                    <property name="location" fetchPlan="_instance_name"/>
+                </property>
+                <property name="equipment" fetchPlan="_instance_name">
+                    <property name="model"/>
+                    <property name="serialNumber"/>
+                    <property name="equipmentType"/>
+                </property>
+                <property name="faultType" fetchPlan="_instance_name"/>
+            </fetchPlan>
+            <loader id="repairRequestsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from RepairRequest e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="repairRequestsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="repairRequestsDataGrid.create"/>
+            <button id="editButton" action="repairRequestsDataGrid.edit"/>
+            <button id="removeButton" action="repairRequestsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="repairRequestsDl"/>
+        </hbox>
+        <dataGrid id="repairRequestsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="repairRequestsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="user"/>
+                <column property="room"/>
+                <column property="equipment"/>
+                <column property="faultType"/>
+                <column property="description"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://roomListView.title"
+      focusComponent="roomsDataGrid">
+    <data>
+        <collection id="roomsDc"
+                    class="com.company.helpdesk.entity.Room">
+            <fetchPlan extends="_base">
+                <property name="location" fetchPlan="_instance_name">
+                    <property name="locationName"/>
+                </property>
+            </fetchPlan>
+            <loader id="roomsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Room e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="roomsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="roomsDataGrid.create"/>
+            <button id="editButton" action="roomsDataGrid.edit"/>
+            <button id="removeButton" action="roomsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="roomsDl"/>
+        </hbox>
+        <dataGrid id="roomsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="roomsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="roomName"/>
+                <column property="location"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

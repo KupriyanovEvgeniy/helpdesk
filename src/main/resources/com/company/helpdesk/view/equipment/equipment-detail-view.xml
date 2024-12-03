@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://equipmentDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="equipmentDc"
+                  class="com.company.helpdesk.entity.Equipment">
+            <fetchPlan extends="_base">
+                <property name="room" fetchPlan="_instance_name">
+                    <property name="roomName"/>
+                    <property name="location" fetchPlan="_instance_name"/>
+                </property>
+            </fetchPlan>
+            <loader id="equipmentDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="equipmentDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="nameField" property="name"/>
+            <textField id="modelField" property="model"/>
+            <textField id="serialNumberField" property="serialNumber"/>
+            <entityPicker id="roomField" property="room">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <select id="equipmentTypeField" property="equipmentType"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
