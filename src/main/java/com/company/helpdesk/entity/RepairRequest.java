@@ -41,6 +41,16 @@ public class RepairRequest {
     @InstanceName
     @Column(name = "DESCRIPTION", length = 1000)
     private String description;
+    @Column(name = "TASK_STATUS")
+    private String taskStatus;
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus == null ? null : TaskStatus.fromId(taskStatus);
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus == null ? null : taskStatus.getId();
+    }
 
     public EquipmentType getEquipmentType() {
         return equipmentType == null ? null : EquipmentType.fromId(equipmentType);

@@ -1,6 +1,7 @@
 package com.company.helpdesk.view.repairrequest;
 
 import com.company.helpdesk.entity.RepairRequest;
+import com.company.helpdesk.entity.TaskStatus;
 import com.company.helpdesk.entity.User;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.router.Route;
@@ -19,11 +20,12 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
-        // Получаем текущего пользователя
+// Получаем текущего пользователя
         User user = (User) currentAuthentication.getUser();
 
-        // Устанавливаем пользователя в ремонтный запрос
+        // Устанавливаем значения по умолчанию
         RepairRequest repairRequest = event.getEntity();
         repairRequest.setUser(user);
+        repairRequest.setTaskStatus(TaskStatus.CREATED); // Устанавливаем статус задачи в "CREATED"
     }
 }

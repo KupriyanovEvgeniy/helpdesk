@@ -98,6 +98,7 @@
                             property="faultType">
             </entityComboBox>
             <textField id="descriptionField" property="description"/>
+            <select id="taskStatusField" property="taskStatus"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
