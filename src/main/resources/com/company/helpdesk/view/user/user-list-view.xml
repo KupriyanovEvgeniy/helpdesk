@@ -29,7 +29,7 @@
     </facets>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="usersDl">
+                       dataLoader="usersDl" summaryText="msg://genericFilter.summaryText">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
