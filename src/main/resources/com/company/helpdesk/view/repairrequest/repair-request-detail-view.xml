@@ -70,41 +70,33 @@
                 <responsiveStep minWidth="0" columns="1"/>
                 <responsiveStep minWidth="40em" columns="2"/>
             </responsiveSteps>
-
             <entityPicker id="userField" property="user">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-
             <entityComboBox id="locationsComboBox"
                             itemsContainer="locationsDc"
                             dataContainer="repairRequestDc"
                             property="location">
             </entityComboBox>
-
             <entityComboBox id="roomsComboBox"
                             itemsContainer="roomsDc"
                             dataContainer="repairRequestDc"
                             property="room">
             </entityComboBox>
-
             <select id="equipmentTypeField" property="equipmentType"/>
-
             <entityComboBox id="equipmentsComboBox"
                             itemsContainer="equipmentsDc"
                             dataContainer="repairRequestDc"
                             property="equipment">
             </entityComboBox>
-
-
             <entityComboBox id="faultTypesComboBox"
                             itemsContainer="faultTypesDc"
                             dataContainer="repairRequestDc"
                             property="faultType">
             </entityComboBox>
-
             <textField id="descriptionField" property="description"/>
         </formLayout>
         <hbox id="detailActions">
