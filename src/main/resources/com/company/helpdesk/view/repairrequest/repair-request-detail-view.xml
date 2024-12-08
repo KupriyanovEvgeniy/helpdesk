@@ -26,6 +26,36 @@
             </fetchPlan>
             <loader id="repairRequestDl"/>
         </instance>
+        <collection id="locationsDc" class="com.company.helpdesk.entity.Location">
+            <fetchPlan extends="_base"/>
+            <loader id="locationsDl" readOnly="true">
+                <query/>
+            </loader>
+        </collection>
+        <collection id="equipmentsDc" class="com.company.helpdesk.entity.Equipment">
+            <fetchPlan extends="_base"/>
+            <loader id="equipmentsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Equipment e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="roomsDc" class="com.company.helpdesk.entity.Room">
+            <fetchPlan extends="_base"/>
+            <loader id="roomsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Room e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="faultTypesDc" class="com.company.helpdesk.entity.FaultType">
+            <fetchPlan extends="_base"/>
+            <loader id="faultTypesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from FaultType e]]>
+                </query>
+            </loader>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -40,37 +70,41 @@
                 <responsiveStep minWidth="0" columns="1"/>
                 <responsiveStep minWidth="40em" columns="2"/>
             </responsiveSteps>
+
             <entityPicker id="userField" property="user">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="locationField" property="location">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
-            <entityPicker id="roomField" property="room">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
+
+            <entityComboBox id="locationsComboBox"
+                            itemsContainer="locationsDc"
+                            dataContainer="repairRequestDc"
+                            property="location">
+            </entityComboBox>
+
+            <entityComboBox id="roomsComboBox"
+                            itemsContainer="roomsDc"
+                            dataContainer="repairRequestDc"
+                            property="room">
+            </entityComboBox>
+
             <select id="equipmentTypeField" property="equipmentType"/>
-            <entityPicker id="equipmentField" property="equipment">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
-            <entityPicker id="faultTypeField" property="faultType">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
+
+            <entityComboBox id="equipmentsComboBox"
+                            itemsContainer="equipmentsDc"
+                            dataContainer="repairRequestDc"
+                            property="equipment">
+            </entityComboBox>
+
+
+            <entityComboBox id="faultTypesComboBox"
+                            itemsContainer="faultTypesDc"
+                            dataContainer="repairRequestDc"
+                            property="faultType">
+            </entityComboBox>
+
             <textField id="descriptionField" property="description"/>
         </formLayout>
         <hbox id="detailActions">

@@ -50,9 +50,15 @@ public class HelpdeskSecurityConfiguration {
     public void register(User user) {
         RoleAssignmentEntity roleAssignment = unconstrainedDataManager.create(RoleAssignmentEntity.class);
         roleAssignment.setUsername(user.getUsername());
-        roleAssignment.setRoleCode(FullAccessRole.CODE);
+        roleAssignment.setRoleCode(UserRole.CODE);
         roleAssignment.setRoleType(RoleAssignmentRoleType.RESOURCE);
 
-        unconstrainedDataManager.save(user, roleAssignment);
+        // Назначение Row-Level Role
+        RoleAssignmentEntity rowLevelRoleAssignment = unconstrainedDataManager.create(RoleAssignmentEntity.class);
+        rowLevelRoleAssignment.setUsername(user.getUsername());
+        rowLevelRoleAssignment.setRoleCode(UserRowLevelRole.CODE); // Указать код Row-Level роли
+        rowLevelRoleAssignment.setRoleType(RoleAssignmentRoleType.ROW_LEVEL);
+
+        unconstrainedDataManager.save(user, roleAssignment, rowLevelRoleAssignment);
     }
 }
