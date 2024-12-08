@@ -14,7 +14,7 @@ import io.jmix.securityflowui.role.annotation.ViewPolicy;
 public interface UserRole {
     String CODE = "user-role";
 
-    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"user", "location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.MODIFY)
 
     @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = RepairRequest.class, actions = EntityPolicyAction.ALL)

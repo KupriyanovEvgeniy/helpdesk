@@ -91,6 +91,10 @@
                             itemsContainer="equipmentsDc"
                             dataContainer="repairRequestDc"
                             property="equipment">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
             </entityComboBox>
             <entityComboBox id="faultTypesComboBox"
                             itemsContainer="faultTypesDc"
