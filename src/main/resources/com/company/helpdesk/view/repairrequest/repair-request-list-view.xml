@@ -72,7 +72,6 @@
                 <column property="equipment"/>
                 <column property="faultType"/>
                 <column property="description"/>
-                <column property="taskStatus"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">
