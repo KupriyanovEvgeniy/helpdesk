@@ -24,6 +24,7 @@
                     <property name="serialNumber"/>
                 </property>
                 <property name="faultType" fetchPlan="_instance_name"/>
+                <property name="taskStatus"/> <!-- Добавляем taskStatus в fetchPlan -->
             </fetchPlan>
             <loader id="repairRequestsDl" readOnly="true">
                 <query>
@@ -44,16 +45,21 @@
         <action id="discardAction" type="lookup_discard"/>
     </actions>
     <layout>
+        <!-- Фильтр -->
         <genericFilter id="genericFilter"
                        dataLoader="repairRequestsDl">
-            <properties include=".*"/>
+            <properties include=".*"/> <!-- Включаем все свойства -->
         </genericFilter>
+
+        <!-- Панель кнопок -->
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="createButton" action="repairRequestsDataGrid.create"/>
             <button id="editButton" action="repairRequestsDataGrid.edit"/>
             <button id="removeButton" action="repairRequestsDataGrid.remove"/>
             <simplePagination id="pagination" dataLoader="repairRequestsDl"/>
         </hbox>
+
+        <!-- Таблица данных -->
         <dataGrid id="repairRequestsDataGrid"
                   width="100%"
                   minHeight="20em"
@@ -72,9 +78,10 @@
                 <column property="equipment"/>
                 <column property="faultType"/>
                 <column property="description"/>
-                <column property="taskStatus"/>
             </columns>
         </dataGrid>
+
+        <!-- Кнопки для выбора -->
         <hbox id="lookupActions" visible="false">
             <button id="selectButton" action="selectAction"/>
             <button id="discardButton" action="discardAction"/>
