@@ -36,6 +36,8 @@ public class User implements JmixUserDetails {
     @Column(name = "USERNAME", nullable = false)
     private String username;
 
+    @Column(name = "SUPPORT_PEOPLE")
+    private Boolean supportPeople;
     @Secret
     @SystemLevel
     @Column(name = "PASSWORD")
@@ -67,6 +69,14 @@ public class User implements JmixUserDetails {
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
+
+    public Boolean getSupportPeople() {
+        return supportPeople;
+    }
+
+    public void setSupportPeople(Boolean supportPeople) {
+        this.supportPeople = supportPeople;
+    }
 
     public Integer getPriority() {
         return priority;

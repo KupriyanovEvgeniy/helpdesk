@@ -49,6 +49,7 @@
                 </actions>
             </entityPicker>
             <textField id="priorityField" property="priority"/>
+            <checkbox id="supportPeopleField" property="supportPeople"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

@@ -57,6 +57,14 @@
                 </query>
             </loader>
         </collection>
+        <collection id="usersDc" class="com.company.helpdesk.entity.User">
+            <fetchPlan extends="_base"/>
+            <loader id="usersDl" readOnly="true">
+                <query>
+                    <![CDATA[select u from User u where u.supportPeople = true]]>
+                </query>
+            </loader>
+        </collection>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
@@ -105,12 +113,15 @@
             <textField id="descriptionField" property="description"/>
             <select id="taskStatusField" property="taskStatus"/>
             <textField id="priorityField" property="priority"/>
-            <entityPicker id="userSupportField" property="userSupport">
+            <entityComboBox id="usersComboBox" itemsContainer="usersDc" dataContainer="repairRequestDc"
+                            property="userSupport">
                 <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
                 </actions>
-            </entityPicker>
+            </entityComboBox>
+
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
