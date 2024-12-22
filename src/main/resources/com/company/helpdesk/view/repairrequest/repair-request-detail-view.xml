@@ -23,6 +23,7 @@
                     <property name="serialNumber"/>
                 </property>
                 <property name="faultType" fetchPlan="_instance_name"/>
+                <property name="userSupport" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="repairRequestDl"/>
         </instance>
@@ -104,6 +105,12 @@
             <textField id="descriptionField" property="description"/>
             <select id="taskStatusField" property="taskStatus"/>
             <textField id="priorityField" property="priority"/>
+            <entityPicker id="userSupportField" property="userSupport">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

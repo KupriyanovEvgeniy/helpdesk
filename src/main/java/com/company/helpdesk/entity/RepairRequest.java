@@ -13,7 +13,8 @@ import java.util.UUID;
         @Index(name = "IDX_REPAIR_REQUEST_ROOM", columnList = "ROOM_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_EQUIPMENT", columnList = "EQUIPMENT_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_FAULT_TYPE", columnList = "FAULT_TYPE_ID"),
-        @Index(name = "IDX_REPAIR_REQUEST_LOCATION", columnList = "LOCATION_ID")
+        @Index(name = "IDX_REPAIR_REQUEST_LOCATION", columnList = "LOCATION_ID"),
+        @Index(name = "IDX_REPAIR_REQUEST_USER_SUPPORT", columnList = "USER_SUPPORT_ID")
 })
 @Entity
 public class RepairRequest {
@@ -26,6 +27,9 @@ public class RepairRequest {
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @JoinColumn(name = "USER_SUPPORT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userSupport;
     @JoinColumn(name = "LOCATION_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
@@ -45,6 +49,14 @@ public class RepairRequest {
     private String description;
     @Column(name = "TASK_STATUS")
     private String taskStatus;
+
+    public User getUserSupport() {
+        return userSupport;
+    }
+
+    public void setUserSupport(User userSupport) {
+        this.userSupport = userSupport;
+    }
 
     public Integer getPriority() {
         return priority;

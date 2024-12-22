@@ -24,7 +24,8 @@
                     <property name="serialNumber"/>
                 </property>
                 <property name="faultType" fetchPlan="_instance_name"/>
-                <property name="taskStatus"/> <!-- Добавляем taskStatus в fetchPlan -->
+                <property name="taskStatus"/>
+                <property name="userSupport" fetchPlan="_base"/> <!-- Добавляем taskStatus в fetchPlan -->
             </fetchPlan>
             <loader id="repairRequestsDl" readOnly="true">
                 <query>
@@ -77,6 +78,7 @@
                 <column property="equipment"/>
                 <column property="faultType"/>
                 <column property="description"/>
+                <column property="userSupport"/>
             </columns>
         </dataGrid>
         <!-- Кнопки для выбора -->
