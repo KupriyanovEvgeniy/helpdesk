@@ -13,6 +13,7 @@
                 <textField id="surNameField" label="msg://surNameField.label"/>
                 <textField id="emailField" label="msg://emailField.label"/>
                 <select id="jobTitleField" property="jobTitle" label="msg://jobTitleField.label"/>
+                <textField id="priority" visible="false"/>
             </formLayout>
             <button id="registerBtn" text="msg://registerBtn.text" themeNames="primary" width="100%"/>
             <button id="alreadyRegisteredBtn" text="msg://alreadyRegisteredBtn.text" themeNames="tertiary small"/>

@@ -86,8 +86,13 @@ public class RegistrationView extends StandardView {
         user.setSurName(surNameField.getValue());
         user.setEmail(emailField.getValue());
 
-        // Установка значений для jobTitle, location и room
-        user.setJobTitle(jobTitleField.getValue());
+        // Установка значения для jobTitle
+        JobTitle selectedJobTitle = jobTitleField.getValue();
+        user.setJobTitle(selectedJobTitle);
+
+        if (selectedJobTitle != null) {
+            user.setPriority(selectedJobTitle.getPriority());
+        }
 
         // Валидация пароля
         List<String> errors = passwordValidation.validate(user, passwordField.getValue());
