@@ -50,7 +50,6 @@
                        dataLoader="repairRequestsDl">
             <properties include=".*"/> <!-- Включаем все свойства -->
         </genericFilter>
-
         <!-- Панель кнопок -->
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="createButton" action="repairRequestsDataGrid.create"/>
@@ -58,7 +57,6 @@
             <button id="removeButton" action="repairRequestsDataGrid.remove"/>
             <simplePagination id="pagination" dataLoader="repairRequestsDl"/>
         </hbox>
-
         <!-- Таблица данных -->
         <dataGrid id="repairRequestsDataGrid"
                   width="100%"
@@ -72,6 +70,7 @@
             </actions>
             <columns resizable="true">
                 <column property="user"/>
+                <column property="priority"/>
                 <column property="location"/>
                 <column property="room"/>
                 <column property="equipmentType"/>
@@ -80,7 +79,6 @@
                 <column property="description"/>
             </columns>
         </dataGrid>
-
         <!-- Кнопки для выбора -->
         <hbox id="lookupActions" visible="false">
             <button id="selectButton" action="selectAction"/>

@@ -31,11 +31,11 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
 
                     switch (status) {
                         case CREATED:
-                            statusSpan.getStyle().set("color", "blue");
+                            statusSpan.getStyle().set("color", "orange");
                             statusSpan.setText("Создана");
                             break;
                         case IN_PROGRESS:
-                            statusSpan.getStyle().set("color", "orange");
+                            statusSpan.getStyle().set("color", "blue");
                             statusSpan.setText("В работе");
                             break;
                         case COMPLITED:

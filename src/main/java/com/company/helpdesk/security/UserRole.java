@@ -16,7 +16,7 @@ public interface UserRole {
 
     @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.MODIFY)
 
-    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"taskstatus", "user", "location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = RepairRequest.class, actions = EntityPolicyAction.ALL)
     void repairRequest();
 

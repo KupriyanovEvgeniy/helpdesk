@@ -21,6 +21,8 @@ public class RepairRequest {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+    @Column(name = "PRIORITY")
+    private Integer priority;
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -43,6 +45,14 @@ public class RepairRequest {
     private String description;
     @Column(name = "TASK_STATUS")
     private String taskStatus;
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 
     public TaskStatus getTaskStatus() {
         return taskStatus == null ? null : TaskStatus.fromId(taskStatus);

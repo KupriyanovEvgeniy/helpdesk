@@ -47,6 +47,7 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         RepairRequest repairRequest = event.getEntity();
         repairRequest.setUser(user);
         repairRequest.setTaskStatus(TaskStatus.CREATED); // Устанавливаем статус задачи в "CREATED"
+        repairRequest.setPriority(user.getPriority());
     }
 
     @Subscribe("locationsComboBox")

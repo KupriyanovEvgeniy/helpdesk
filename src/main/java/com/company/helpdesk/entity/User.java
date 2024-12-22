@@ -1,6 +1,5 @@
 package com.company.helpdesk.entity;
 
-import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.SystemLevel;
@@ -51,6 +50,8 @@ public class User implements JmixUserDetails {
     private String surName;
     @Column(name = "JOB_TITLE")
     private String jobTitle;
+    @Column(name = "PRIORITY")
+    private Integer priority;
     @JoinColumn(name = "LOCATION_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
@@ -66,6 +67,14 @@ public class User implements JmixUserDetails {
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 
     public Room getRoom() {
         return room;

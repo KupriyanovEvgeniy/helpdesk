@@ -103,6 +103,7 @@
             </entityComboBox>
             <textField id="descriptionField" property="description"/>
             <select id="taskStatusField" property="taskStatus"/>
+            <textField id="priorityField" property="priority"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
