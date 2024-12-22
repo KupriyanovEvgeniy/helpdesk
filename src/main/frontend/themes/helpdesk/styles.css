@@ -2,3 +2,12 @@
 @import url('view/main-view.css');
 @import url('view/main-view-top-menu.css');
 @import url('view/login-view.css');
+
+/* Добавление фона для страниц авторизации и регистрации */
+.jmix-login-main-layout {
+    background-image: url('images/registration-background.jpg'); /* Укажите путь к вашему изображению */
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 15%;
+}
+

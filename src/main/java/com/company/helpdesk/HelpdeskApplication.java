@@ -20,7 +20,7 @@ import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 
 @Push
-@Theme(value = "helpdesk")
+@Theme(value = "helpdesk-style")
 @PWA(name = "Helpdesk", shortName = "Helpdesk")
 @SpringBootApplication
 public class HelpdeskApplication implements AppShellConfigurator {
