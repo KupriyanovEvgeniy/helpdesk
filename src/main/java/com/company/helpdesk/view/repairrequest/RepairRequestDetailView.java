@@ -38,6 +38,9 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     @ViewComponent
     private JmixSelect<EquipmentType> equipmentTypeField;
 
+    @ViewComponent
+    private EntityComboBox<FaultType> faultTypesComboBox;
+
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
         // Получаем текущего пользователя
@@ -99,12 +102,12 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     @Subscribe("equipmentTypeField")
     public void onEquipmentTypeFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixSelect<EquipmentType>, EquipmentType> event) {
         EquipmentType selectedType = event.getValue();
-        Room selectedRoom = roomsComboBox.getValue(); // Получаем текущую выбранную комнату
+        Room selectedRoom = roomsComboBox.getValue();
 
-        equipmentsComboBox.clear(); // Очистить текущий выбор оборудования
+        equipmentsComboBox.clear();
+        faultTypesComboBox.clear(); // Очищаем список для FaultType
 
         if (selectedRoom != null) {
-            // Если выбрана комната и тип оборудования, фильтруем по обоим критериям
             List<Equipment> filteredEquipmentList = dataManager.load(Equipment.class)
                     .query("select e from Equipment e where e.room.id = :roomId and (:equipmentType is null or e.equipmentType = :equipmentType)")
                     .parameter("roomId", selectedRoom.getId())
@@ -113,7 +116,6 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
             equipmentsComboBox.setItems(filteredEquipmentList);
         } else if (selectedType != null) {
-            // Если выбран только тип оборудования
             List<Equipment> filteredEquipmentList = dataManager.load(Equipment.class)
                     .query("select e from Equipment e where e.equipmentType = :equipmentType")
                     .parameter("equipmentType", selectedType)
@@ -121,8 +123,19 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
             equipmentsComboBox.setItems(filteredEquipmentList);
         } else {
-            // Если ничего не выбрано, очищаем комбобокс оборудования
             equipmentsComboBox.setItems(Collections.emptyList());
+        }
+
+        if (selectedType != null) {
+            // Загружаем FaultType в зависимости от выбранного EquipmentType
+            List<FaultType> faultTypes = dataManager.load(FaultType.class)
+                    .query("select f from FaultType f where f.equipmentType = :equipmentType")
+                    .parameter("equipmentType", selectedType)
+                    .list();
+
+            faultTypesComboBox.setItems(faultTypes);
+        } else {
+            faultTypesComboBox.setItems(Collections.emptyList());
         }
     }
 }
