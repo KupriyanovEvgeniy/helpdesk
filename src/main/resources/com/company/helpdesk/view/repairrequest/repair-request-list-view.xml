@@ -79,6 +79,9 @@
                 <column property="faultType"/>
                 <column property="description"/>
                 <column property="userSupport"/>
+                <column property="recognizedByAI"/>
+                <column property="audioFile"/>
+                <column property="phoneNumber"/>
             </columns>
         </dataGrid>
         <!-- Кнопки для выбора -->

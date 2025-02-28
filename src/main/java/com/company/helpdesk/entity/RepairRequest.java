@@ -22,6 +22,12 @@ public class RepairRequest {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+    @Column(name = "RECOGNIZED_BY_AI")
+    private Boolean recognizedByAI;
+    @Column(name = "AUDIO_FILE")
+    private String audioFile;
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
     @Column(name = "PRIORITY")
     private Integer priority;
     @JoinColumn(name = "USER_ID")
@@ -49,6 +55,30 @@ public class RepairRequest {
     private String description;
     @Column(name = "TASK_STATUS")
     private String taskStatus;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAudioFile() {
+        return audioFile;
+    }
+
+    public void setAudioFile(String audioFile) {
+        this.audioFile = audioFile;
+    }
+
+    public Boolean getRecognizedByAI() {
+        return recognizedByAI;
+    }
+
+    public void setRecognizedByAI(Boolean recognizedByAI) {
+        this.recognizedByAI = recognizedByAI;
+    }
 
     public User getUserSupport() {
         return userSupport;

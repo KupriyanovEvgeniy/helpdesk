@@ -121,7 +121,9 @@
                     <action id="entityOpen" type="entity_open"/>
                 </actions>
             </entityComboBox>
-
+            <checkbox id="recognizedByAIField" property="recognizedByAI"/>
+            <fileUploadField id="audioFileField" property="audioFile"/>
+            <textField id="phoneNumberField" property="phoneNumber"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
