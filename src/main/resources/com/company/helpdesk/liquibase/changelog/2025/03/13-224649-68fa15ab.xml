@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="helpdesk">
+        <createTable tableName="REPAIR_REQUEST_EQUIPMENT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_REPAIR_REQUEST_EQUIPMENT"/>
+            </column>
+            <column name="EUIPMENT_TYPE" type="VARCHAR(255)"/>
+            <column name="QUIPMENT_ID" type="UUID"/>
+            <column name="FAULT_TYPE_ID" type="UUID"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="REPAIR_REUEST_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="helpdesk">
+        <createIndex indexName="IDX_REPAIR_REQUEST_EQUIPMENT_FAULT_TYPE" tableName="REPAIR_REQUEST_EQUIPMENT">
+            <column name="FAULT_TYPE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="FAULT_TYPE_ID" baseTableName="REPAIR_REQUEST_EQUIPMENT"
+                                 constraintName="FK_REPAIR_REQUEST_EQUIPMENT_ON_FAULT_TYPE" referencedColumnNames="ID"
+                                 referencedTableName="FAULT_TYPE"/>
+    </changeSet>
+    <changeSet id="3" author="helpdesk">
+        <createIndex indexName="IDX_REPAIR_REQUEST_EQUIPMENT_QUIPMENT" tableName="REPAIR_REQUEST_EQUIPMENT">
+            <column name="QUIPMENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="QUIPMENT_ID" baseTableName="REPAIR_REQUEST_EQUIPMENT"
+                                 constraintName="FK_REPAIR_REQUEST_EQUIPMENT_ON_QUIPMENT" referencedColumnNames="ID"
+                                 referencedTableName="EQUIPMENT"/>
+    </changeSet>
+    <changeSet id="4" author="helpdesk">
+        <createIndex indexName="IDX_REPAIR_REQUEST_EQUIPMENT_REPAIR_REUEST" tableName="REPAIR_REQUEST_EQUIPMENT">
+            <column name="REPAIR_REUEST_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="REPAIR_REUEST_ID" baseTableName="REPAIR_REQUEST_EQUIPMENT"
+                                 constraintName="FK_REPAIR_REQUEST_EQUIPMENT_ON_REPAIR_REUEST"
+                                 referencedColumnNames="ID" referencedTableName="REPAIR_REQUEST"/>
+    </changeSet>
+</databaseChangeLog>

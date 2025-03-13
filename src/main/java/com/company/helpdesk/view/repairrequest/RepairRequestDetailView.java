@@ -3,13 +3,20 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.*;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.component.combobox.EntityComboBox;
+import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.component.grid.editor.DataGridEditor;
 import io.jmix.flowui.component.select.JmixSelect;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.model.CollectionContainer;
+import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.jmix.core.DataManager;
+import com.vaadin.flow.component.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,9 +34,6 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     private DataManager dataManager;
 
     @ViewComponent
-    private EntityComboBox<Location> locationsComboBox;
-
-    @ViewComponent
     private EntityComboBox<Room> roomsComboBox;
 
     @ViewComponent
@@ -41,6 +45,15 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     @ViewComponent
     private EntityComboBox<FaultType> faultTypesComboBox;
 
+    @ViewComponent
+    private DataGrid<FaultType> faultsTable;
+
+    @ViewComponent
+    private CollectionContainer<RepairRequestEquipment> equipmentListDc;
+
+    @ViewComponent
+    private CollectionLoader<RepairRequestEquipment> equipmentListDl;
+
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
         // Получаем текущего пользователя
@@ -51,6 +64,15 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         repairRequest.setUser(user);
         repairRequest.setTaskStatus(TaskStatus.CREATED); // Устанавливаем статус задачи в "CREATED"
         repairRequest.setPriority(user.getPriority());
+
+        DataGridEditor<FaultType> tableEditor = faultsTable.getEditor();
+        faultsTable.addItemDoubleClickListener(e -> {
+            tableEditor.editItem(e.getItem());
+            Component editorComponent = e.getColumn().getEditorComponent();
+            if (editorComponent instanceof Focusable) {
+                ((Focusable<?>) editorComponent).focus();
+            }
+        });
     }
 
     @Subscribe("locationsComboBox")
@@ -137,5 +159,11 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         } else {
             faultTypesComboBox.setItems(Collections.emptyList());
         }
+    }
+
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        equipmentListDl.setParameter("repairRequest", getEditedEntity());
+        equipmentListDl.load();
     }
 }

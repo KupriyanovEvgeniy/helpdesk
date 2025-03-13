@@ -24,6 +24,10 @@
                 </property>
                 <property name="faultType" fetchPlan="_instance_name"/>
                 <property name="userSupport" fetchPlan="_base"/>
+                <property name="equipmentList">
+                    <property name="equipment"/>
+                    <property name="description"/>
+                </property>
             </fetchPlan>
             <loader id="repairRequestDl"/>
         </instance>
@@ -63,6 +67,21 @@
                 <query>
                     <![CDATA[select u from User u where u.supportPeople = true]]>
                 </query>
+            </loader>
+        </collection>
+        <collection id="repairRequestsDc" class="com.company.helpdesk.entity.RepairRequest">
+            <fetchPlan extends="_base"/>
+            <loader id="repairRequestsDl"/>
+        </collection>
+        <collection id="equipmentListDc" class="com.company.helpdesk.entity.RepairRequestEquipment">
+            <fetchPlan extends="_base">
+                <property name="equipment" fetchPlan="_instance_name">
+                    <property name="model"/>
+                    <property name="serialNumber"/>
+                </property>
+            </fetchPlan>
+            <loader id="equipmentListDl">
+                <query><![CDATA[select e from RepairRequestEquipment e where e.repairRequest = :repairRequest]]></query>
             </loader>
         </collection>
     </data>
@@ -124,6 +143,12 @@
             <checkbox id="recognizedByAIField" property="recognizedByAI"/>
             <fileUploadField id="audioFileField" property="audioFile"/>
             <textField id="phoneNumberField" property="phoneNumber"/>
+            <dataGrid width="100%" dataContainer="repairRequestsDc" id="faultsTable">
+                <columns>
+                    <column property="equipment" editable="true"/>
+                    <column property="description" editable="true"/>
+                </columns>
+            </dataGrid>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
