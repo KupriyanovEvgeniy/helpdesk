@@ -6,12 +6,9 @@
         <instance id="repairRequestEquipmentDc"
                   class="com.company.helpdesk.entity.RepairRequestEquipment">
             <fetchPlan extends="_base">
-                <property name="equipment" fetchPlan="_base">
-                    <property name="room" fetchPlan="_base">
-                        <property name="location" fetchPlan="_base"/>
-                    </property>
-                </property>
+                <property name="equipment" fetchPlan="_base"/>
                 <property name="faultType" fetchPlan="_base"/>
+                <property name="repairRequest" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="repairRequestEquipmentDl"/>
         </instance>
@@ -43,6 +40,12 @@
                 </actions>
             </entityPicker>
             <textField id="descriptionField" property="description"/>
+            <entityPicker id="repairRequestField" property="repairRequest">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

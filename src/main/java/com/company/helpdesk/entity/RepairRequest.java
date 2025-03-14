@@ -1,6 +1,8 @@
 package com.company.helpdesk.entity;
 
+import groovyjarjarpicocli.CommandLine;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
@@ -56,7 +58,8 @@ public class RepairRequest {
     private String description;
     @Column(name = "TASK_STATUS")
     private String taskStatus;
-    @OneToMany(mappedBy = "repairRequest")
+    @Composition
+    @OneToMany(mappedBy = "repairRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RepairRequestEquipment> equipmentList;
 
     public List<RepairRequestEquipment> getEquipmentList() {
