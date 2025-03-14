@@ -6,21 +6,18 @@ import io.jmix.core.entity.annotation.SystemLevel;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import io.jmix.security.authentication.JmixUserDetails;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 @JmixEntity
 @Entity
-@Table(name = "USER_", indexes = {
-        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true),
-        @Index(name = "IDX_USER__LOCATION", columnList = "LOCATION_ID"),
-        @Index(name = "IDX_USER__ROOM", columnList = "ROOM_ID")
+@Table(name = "SEC_USER", indexes = {
+        @Index(name = "IDX_SEC_USER_ORGANIZATION", columnList = "ORGANIZATION_ID")
 })
 public class User implements JmixUserDetails {
 
@@ -29,95 +26,327 @@ public class User implements JmixUserDetails {
     @JmixGeneratedValue
     private UUID id;
 
+    @OneToMany(mappedBy = "user")
+    private List<Employee> employees;
+
+    @JoinColumn(name = "ORGANIZATION_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization organization;
+
+    @Column(name = "CHANGE_PASSWORD_AT_LOGON")
+    private Boolean changePasswordAtNextLogon;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "CREATE TS")
+    @SystemLevel
+    private Date createTs;
+
+    @Column(name = "TIME_ZONE_AUTO")
+    private Boolean timeZoneAuto;
+
+    @Column(name = "IS_MOBILE")
+    private Boolean isMobile;
+
+    @Column(name = "UPDATED_BY", length = 50)
+    @SystemLevel
+    private String updatedBy;
+
+    @Column(name = "TIME ZONE")
+    private String timeZone;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "UPDATE_TS")
+    @SystemLevel
+    private Date updateTs;
+
+    @Column(name = "USE_ACTIVE_DIRECTORY")
+    private Boolean useActiveDirectory;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "POSITION_")
+    private String position;
+
+    @Column(name = "CREATED_BY", length = 50)
+    @SystemLevel
+    private String createdBy;
+
+    @Column(name = "DELETED_BY", length = 50)
+    @SystemLevel
+    private String deletedBy;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "DELETE_TS")
+    @SystemLevel
+    private Date deleteTs;
+
+    @Column(name = "LOGIN_LC", length = 50)
+    @SystemLevel(propagateToSubclasses = true, value = true)
+    private String loginLowerCase;
+
+    @Column(name = "DEPARTMENT_CODE", length = 20)
+    private String departmentCode;
+
+    @Column(name = "IP_MASK", length = 200)
+    private String ipMask;
+
+    @Column(name = "LANGUAGE", length = 20)
+    private String language;
+
+    @Column(name = "LOGIN", length = 50)
+    private String login;
+
     @Version
     @Column(name = "VERSION", nullable = false)
+    @SystemLevel
     private Integer version;
 
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
+    @Column(name = "PASSWORD_ENCRYPTION", length = 50)
+    @SystemLevel(propagateToSubclasses = true, value = true)
+    private String passwordEncryption;
 
-    @Column(name = "SUPPORT_PEOPLE")
-    private Boolean supportPeople;
+    @Column(name = "SYS_TENANT_ID")
+    @SystemLevel(propagateToSubclasses = true, value = true)
+    private String sysTenantId;
+
+    @Column(name = "GROUP_NAMES")
+    @SystemLevel(value = true)
+    private String groupNames;
+
     @Secret
-    @SystemLevel
+    @SystemLevel(propagateToSubclasses = true, value = true)
     @Column(name = "PASSWORD")
     private String password;
 
     @Column(name = "LAST_NAME")
     private String lastName;
+
     @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Column(name = "SUR_NAME")
-    private String surName;
-    @Column(name = "JOB_TITLE")
-    private String jobTitle;
-    @Column(name = "PRIORITY")
-    private Integer priority;
-    @JoinColumn(name = "LOCATION_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Location location;
-    @JoinColumn(name = "ROOM_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Room room;
+    @Column(name = "MIDDLE_NAME")
+    private String middleName;
+
+    @Column(name = "ACTIVE_DIRECTORY_ID")
+    private String activeDirectoryID;
+
     @Email
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", length = 100)
     private String email;
 
     @Column(name = "ACTIVE")
     private Boolean active = true;
 
+    @JmixProperty
+    @Transient
+    private String nameOrLogin;
+
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public Boolean getSupportPeople() {
-        return supportPeople;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setSupportPeople(Boolean supportPeople) {
-        this.supportPeople = supportPeople;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
-    public Room getRoom() {
-        return room;
+    public String getNameOrLogin() {
+        return nameOrLogin;
     }
 
-    @InstanceName
-    public void setRoom(Room room) {
-        this.room = room;
+    public String getGroupNames() {
+        return groupNames;
     }
 
-    public Location getLocation() {
-        return location;
+    public void setGroupNames(String groupNames) {
+        this.groupNames = groupNames;
     }
 
-    @InstanceName
-    public void setLocation(Location location) {
-        this.location = location;
+    public String getSysTenantId() {
+        return sysTenantId;
     }
 
-    public JobTitle getJobTitle() {
-        return jobTitle == null ? null : JobTitle.fromId(jobTitle);
+    public void setSysTenantId(String sysTenantId) {
+        this.sysTenantId = sysTenantId;
     }
 
-    public void setJobTitle(JobTitle jobTitle) {
-        this.jobTitle = jobTitle == null ? null : jobTitle.getId();
+    public String getPasswordEncryption() {
+        return passwordEncryption;
     }
 
-    public String getSurName() {
-        return surName;
+    public void setPasswordEncryption(String passwordEncryption) {
+        this.passwordEncryption = passwordEncryption;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getUseActiveDirectory() {
+        return useActiveDirectory;
+    }
+
+    public void setUseActiveDirectory(Boolean useActiveDirectory) {
+        this.useActiveDirectory = useActiveDirectory;
+    }
+
+    public Date getUpdateTs() {
+        return updateTs;
+    }
+
+    public void setUpdateTs(Date updateTs) {
+        this.updateTs = updateTs;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Boolean getIsMobile() {
+        return isMobile;
+    }
+
+    public void setIsMobile(Boolean isMobile) {
+        this.isMobile = isMobile;
+    }
+
+    public Boolean getTimeZoneAuto() {
+        return timeZoneAuto;
+    }
+
+    public void setTimeZoneAuto(Boolean timeZoneAuto) {
+        this.timeZoneAuto = timeZoneAuto;
+    }
+
+    public Date getCreateTs() {
+        return createTs;
+    }
+
+    public void setCreateTs(Date createTs) {
+        this.createTs = createTs;
+    }
+
+    public Boolean getChangePasswordAtNextLogon() {
+        return changePasswordAtNextLogon;
+    }
+
+    public void setChangePasswordAtNextLogon(Boolean changePasswordAtNextLogon) {
+        this.changePasswordAtNextLogon = changePasswordAtNextLogon;
+    }
+
+    public Date getDeleteTs() {
+        return deleteTs;
+    }
+
+    public void setDeleteTs(Date deleteTs) {
+        this.deleteTs = deleteTs;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getIpMask() {
+        return ipMask;
+    }
+
+    public void setIpMask(String ipMask) {
+        this.ipMask = ipMask;
+    }
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
+
+    public String getLoginLowerCase() {
+        return loginLowerCase;
+    }
+
+    public void setLoginLowerCase(String loginLowerCase) {
+        this.loginLowerCase = loginLowerCase;
+    }
+
+    public String getActiveDirectoryID() {
+        return activeDirectoryID;
+    }
+
+    public void setActiveDirectoryID(String activeDirectoryID) {
+        this.activeDirectoryID = activeDirectoryID;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public UUID getId() {
@@ -138,15 +367,6 @@ public class User implements JmixUserDetails {
 
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
     }
 
     public Boolean getActive() {
