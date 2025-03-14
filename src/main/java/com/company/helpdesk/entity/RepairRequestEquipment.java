@@ -66,7 +66,7 @@ public class RepairRequestEquipment {
         this.equipment = equipment;
     }
 
-    public EquipmentType getEuipmentType() {
+    public EquipmentType getEquipmentType() {
         return euipmentType == null ? null : EquipmentType.fromId(euipmentType);
     }
 

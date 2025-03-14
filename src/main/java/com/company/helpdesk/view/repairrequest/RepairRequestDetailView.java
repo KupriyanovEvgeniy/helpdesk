@@ -46,9 +46,6 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     @ViewComponent
     private EntityComboBox<FaultType> faultTypesComboBox;
 
-    @Autowired
-    private CollectionLoader<RepairRequestEquipment> equipmentListDl;
-
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
         // Получаем текущего пользователя
@@ -59,9 +56,6 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         repairRequest.setUser(user);
         repairRequest.setTaskStatus(TaskStatus.CREATED); // Устанавливаем статус задачи в "CREATED"
         repairRequest.setPriority(user.getPriority());
-
-        RepairRequestEquipment equipment = event.getEntity();
-        equipment.setRepairRequest(getEditedEntity()); // Устанавливаем текущую заявку
     }
 
     @Subscribe("locationsComboBox")
@@ -148,10 +142,5 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         } else {
             faultTypesComboBox.setItems(Collections.emptyList());
         }
-    }
-
-    @Subscribe
-    public void onAfterSave(AfterSaveEvent event) {
-        equipmentListDl.load(); // Перезагружаем список после сохранения заявки
     }
 }
