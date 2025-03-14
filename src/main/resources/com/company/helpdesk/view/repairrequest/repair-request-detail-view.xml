@@ -143,12 +143,28 @@
             <checkbox id="recognizedByAIField" property="recognizedByAI"/>
             <fileUploadField id="audioFileField" property="audioFile"/>
             <textField id="phoneNumberField" property="phoneNumber"/>
-            <dataGrid width="100%" dataContainer="repairRequestsDc" id="faultsTable">
+
+            <!-- Панель кнопок для управления оборудованием -->
+            <hbox id="buttonsPanel" classNames="buttons-panel">
+                <button id="createBtn" action="equipmentDataGrid.create"/>
+                <button id="editBtn" action="equipmentDataGrid.edit"/>
+                <button id="removeBtn" action="equipmentDataGrid.remove"/>
+            </hbox>
+
+            <!-- Таблица с оборудованием -->
+            <dataGrid width="100%" dataContainer="equipmentListDc" id="equipmentDataGrid">
                 <columns>
-                    <column property="equipment" editable="true"/>
-                    <column property="description" editable="true"/>
+                    <column property="equipment"/>
+                    <column property="faultType"/>
+                    <column property="description"/>
                 </columns>
+                <actions>
+                    <action id="create" type="list_create"/>
+                    <action id="edit" type="list_edit"/>
+                    <action id="remove" type="list_remove"/>
+                </actions>
             </dataGrid>
+
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
