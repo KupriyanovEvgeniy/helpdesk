@@ -81,7 +81,7 @@
                 </property>
             </fetchPlan>
             <loader id="equipmentListDl">
-                <query><![CDATA[select e from RepairRequestEquipment e where e.repairRequest = :repairRequest]]></query>
+                <query><![CDATA[select e from RepairRequestEquipment e ]]></query>
             </loader>
         </collection>
     </data>

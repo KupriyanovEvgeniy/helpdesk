@@ -3,7 +3,6 @@
       title="msg://repairRequestEquipmentDetailView.title"
       focusComponent="form">
     <data>
-        <!-- Контейнер для редактируемой сущности -->
         <instance id="repairRequestEquipmentDc"
                   class="com.company.helpdesk.entity.RepairRequestEquipment">
             <fetchPlan extends="_base">
@@ -11,17 +10,8 @@
                 <property name="faultType" fetchPlan="_base"/>
                 <property name="repairRequest" fetchPlan="_base"/>
             </fetchPlan>
-        </instance>
-        <!-- Контейнер коллекции, который можно использовать для списка -->
-        <collection id="repairRequestEquipmentCollectionDc"
-                    class="com.company.helpdesk.entity.RepairRequestEquipment">
-            <fetchPlan extends="_base">
-                <property name="equipment" fetchPlan="_base"/>
-                <property name="faultType" fetchPlan="_base"/>
-                <property name="repairRequest" fetchPlan="_base"/>
-            </fetchPlan>
             <loader id="repairRequestEquipmentDl"/>
-        </collection>
+        </instance>
     </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
