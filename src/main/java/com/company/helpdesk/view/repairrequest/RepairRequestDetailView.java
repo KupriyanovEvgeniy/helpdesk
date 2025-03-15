@@ -7,6 +7,7 @@ import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.component.combobox.EntityComboBox;
 import io.jmix.flowui.component.select.JmixSelect;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.view.*;
@@ -149,5 +150,21 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         RepairRequest repairRequest = repairRequestDc.getItem();
         equipmentListDl.setParameter("repairRequest", repairRequest);
         equipmentListDl.load();
+    }
+
+    public void createRepairRequestEquipment() {
+        RepairRequestEquipment repairRequestEquipment = dataManager.create(RepairRequestEquipment.class);
+        RepairRequest repairRequest = repairRequestDc.getItem();
+        repairRequestEquipment.setRepairRequest(repairRequest);
+
+        dataManager.save(repairRequestEquipment);
+
+        equipmentListDl.load(); // Перезагружаем данные в таблице
+    }
+
+    // Метод для подписки на событие открытия экрана
+    @Subscribe("equipmentDataGrid.create")
+    public void onCreateButtonClick(ActionPerformedEvent event) {
+        createRepairRequestEquipment();
     }
 }
