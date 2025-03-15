@@ -81,12 +81,14 @@
                 </property>
             </fetchPlan>
             <loader id="equipmentListDl">
-                <query><![CDATA[select e from RepairRequestEquipment e ]]></query>
+                <query><![CDATA[select e from RepairRequestEquipment e where e.repairRequest = :repairRequest]]></query>
             </loader>
         </collection>
     </data>
     <facets>
-        <dataLoadCoordinator auto="true"/>
+        <dataLoadCoordinator auto="true">
+            <refresh loader="equipmentListDl">onContainerItemChanged="repairRequestDc" param="repairRequest"</refresh>
+        </dataLoadCoordinator>
     </facets>
     <actions>
         <action id="saveAction" type="detail_saveClose"/>
@@ -143,20 +145,20 @@
             <checkbox id="recognizedByAIField" property="recognizedByAI"/>
             <fileUploadField id="audioFileField" property="audioFile"/>
             <textField id="phoneNumberField" property="phoneNumber"/>
-
             <!-- Панель кнопок для управления оборудованием -->
             <hbox id="buttonsPanel" classNames="buttons-panel">
                 <button id="createBtn" action="equipmentDataGrid.create"/>
                 <button id="editBtn" action="equipmentDataGrid.edit"/>
                 <button id="removeBtn" action="equipmentDataGrid.remove"/>
             </hbox>
-
             <!-- Таблица с оборудованием -->
             <dataGrid width="100%" dataContainer="equipmentListDc" id="equipmentDataGrid">
                 <columns>
                     <column property="equipment"/>
                     <column property="faultType"/>
                     <column property="description"/>
+                    <column property="repairRequest"/>
+                    <column property="euipmentType"/>
                 </columns>
                 <actions>
                     <action id="create" type="list_create"/>
@@ -164,7 +166,7 @@
                     <action id="remove" type="list_remove"/>
                 </actions>
             </dataGrid>
-
+            <checkbox id="isDraftField" property="isDraft"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

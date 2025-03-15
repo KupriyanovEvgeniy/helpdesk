@@ -13,6 +13,7 @@ import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.jmix.core.DataManager;
@@ -45,6 +46,12 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
     @ViewComponent
     private EntityComboBox<FaultType> faultTypesComboBox;
+
+    @ViewComponent
+    private CollectionLoader<RepairRequestEquipment> equipmentListDl;
+
+    @ViewComponent
+    private InstanceContainer<RepairRequest> repairRequestDc;
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
@@ -142,5 +149,12 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         } else {
             faultTypesComboBox.setItems(Collections.emptyList());
         }
+    }
+
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        RepairRequest repairRequest = repairRequestDc.getItem();
+        equipmentListDl.setParameter("repairRequest", repairRequest);
+        equipmentListDl.load();
     }
 }
