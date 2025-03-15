@@ -3,12 +3,21 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.RepairRequest;
 import com.company.helpdesk.entity.TaskStatus;
 import com.company.helpdesk.view.main.MainView;
+import com.company.helpdesk.view.repairrequestequipment.RepairRequestEquipmentDetailView;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
+import io.jmix.core.DataManager;
+import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.ViewNavigators;
 import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.model.CollectionContainer;
+import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.view.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "repairRequests", layout = MainView.class)
 @ViewController(id = "RepairRequest.list")
@@ -19,6 +28,12 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
 
     @ViewComponent
     private DataGrid<RepairRequest> repairRequestsDataGrid;
+
+    @Autowired
+    private DataManager dataManager;
+
+    @Autowired
+    private ViewNavigators viewNavigators;
 
     @Override
     public void onAttach(AttachEvent event) {
@@ -57,5 +72,27 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
                     TaskStatus status2 = request2.getTaskStatus();
                     return status1 != null && status2 != null ? status1.compareTo(status2) : 0;
                 });
+    }
+
+    // Метод для создания черновика заявки
+    public void createDraftRepairRequest() {
+        // Создаем новую заявку и помечаем её как черновик
+        RepairRequest repairRequest = new RepairRequest();
+        repairRequest.setIsDraft(true);  // Помечаем заявку как черновик
+
+        // Сохраняем заявку
+        dataManager.save(repairRequest);
+
+        // Навигация к экрану редактирования заявки
+        viewNavigators.detailView(this, RepairRequest.class)
+                .editEntity(repairRequest)  // Передаем только что созданную заявку
+                .navigate();  // Переход на экран редактирования
+    }
+
+    // Метод для подписки на событие открытия экрана
+    @Subscribe
+    public void onInit(InitEvent event) {
+        // Здесь создаем черновик заявки сразу при открытии экрана
+        createDraftRepairRequest();
     }
 }

@@ -166,7 +166,7 @@
                     <action id="remove" type="list_remove"/>
                 </actions>
             </dataGrid>
-            <checkbox id="isDraftField" property="isDraft"/>
+            <checkbox id="isDraftField" property="isDraft" value="true"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

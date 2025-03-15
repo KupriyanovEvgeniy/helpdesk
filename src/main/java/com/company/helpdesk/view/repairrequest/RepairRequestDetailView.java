@@ -3,23 +3,16 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.*;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.component.AbstractField;
-import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.component.combobox.EntityComboBox;
-import io.jmix.flowui.component.grid.DataGrid;
-import io.jmix.flowui.component.grid.editor.DataGridEditor;
 import io.jmix.flowui.component.select.JmixSelect;
-import io.jmix.flowui.kit.action.ActionPerformedEvent;
-import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.jmix.core.DataManager;
-import com.vaadin.flow.component.Component;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
