@@ -3,19 +3,14 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.RepairRequest;
 import com.company.helpdesk.entity.TaskStatus;
 import com.company.helpdesk.view.main.MainView;
-import com.company.helpdesk.view.repairrequestequipment.RepairRequestEquipmentDetailView;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
-import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.ViewNavigators;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
-import io.jmix.flowui.model.CollectionContainer;
-import io.jmix.flowui.model.CollectionLoader;
-import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,8 +72,9 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
     // Метод для создания черновика заявки
     public void createDraftRepairRequest() {
         // Создаем новую заявку и помечаем её как черновик
-        RepairRequest repairRequest = new RepairRequest();
+        RepairRequest repairRequest = dataManager.create(RepairRequest.class);
         repairRequest.setIsDraft(true);  // Помечаем заявку как черновик
+        repairRequest.setTaskStatus(TaskStatus.CREATED);
 
         // Сохраняем заявку
         dataManager.save(repairRequest);
@@ -90,9 +86,8 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
     }
 
     // Метод для подписки на событие открытия экрана
-    @Subscribe
-    public void onInit(InitEvent event) {
-        // Здесь создаем черновик заявки сразу при открытии экрана
+    @Subscribe("repairRequestsDataGrid.create")
+    public void onCreateButtonClick(ActionPerformedEvent event) {
         createDraftRepairRequest();
     }
 }
