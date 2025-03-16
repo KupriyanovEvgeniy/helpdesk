@@ -9,6 +9,8 @@
         <item view="FaultType.list" title="msg://com.company.helpdesk.view.faulttype/faultTypeListView.title"/>
         <item view="RepairRequest.list"
               title="msg://com.company.helpdesk.view.repairrequest/repairRequestListView.title"/>
+        <item view="RepairRequestHistory.list"
+              title="msg://com.company.helpdesk.view.repairrequesthistory/repairRequestHistoryListView.title"/>
 
     </menu>
 

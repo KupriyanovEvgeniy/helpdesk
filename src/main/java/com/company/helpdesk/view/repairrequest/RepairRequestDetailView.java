@@ -3,9 +3,13 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.*;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.component.combobox.EntityComboBox;
+import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.component.grid.editor.DataGridEditor;
 import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionLoader;
@@ -46,6 +50,9 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
     @ViewComponent
     private InstanceContainer<RepairRequest> repairRequestDc;
+
+    @ViewComponent
+    private DataGrid<RepairRequestEquipment> equipmentDataGrid;
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
