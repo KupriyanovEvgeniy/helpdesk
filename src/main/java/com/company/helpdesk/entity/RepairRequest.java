@@ -1,10 +1,12 @@
 package com.company.helpdesk.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -55,6 +57,27 @@ public class RepairRequest {
     private String description;
     @Column(name = "TASK_STATUS")
     private String taskStatus;
+    @Composition
+    @OneToMany(mappedBy = "repairRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RepairRequestEquipment> equipmentList;
+    @Column(name = "IS_DRAFT")
+    private Boolean isDraft;
+
+    public Boolean getIsDraft() {
+        return isDraft;
+    }
+
+    public void setIsDraft(Boolean isDraft) {
+        this.isDraft = isDraft;
+    }
+
+    public List<RepairRequestEquipment> getEquipmentList() {
+        return equipmentList;
+    }
+
+    public void setEquipmentList(List<RepairRequestEquipment> equipmentList) {
+        this.equipmentList = equipmentList;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

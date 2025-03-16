@@ -56,6 +56,7 @@
             <button id="createButton" action="repairRequestsDataGrid.create"/>
             <button id="editButton" action="repairRequestsDataGrid.edit"/>
             <button id="removeButton" action="repairRequestsDataGrid.remove"/>
+            <button id="completeButton" text="Завершить"/>
             <simplePagination id="pagination" dataLoader="repairRequestsDl"/>
         </hbox>
         <!-- Таблица данных -->

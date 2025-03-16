@@ -3,10 +3,17 @@ package com.company.helpdesk.view.repairrequest;
 import com.company.helpdesk.entity.*;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.component.combobox.EntityComboBox;
+import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.component.grid.editor.DataGridEditor;
 import io.jmix.flowui.component.select.JmixSelect;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
+import io.jmix.flowui.model.CollectionLoader;
+import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.jmix.core.DataManager;
@@ -27,9 +34,6 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
     private DataManager dataManager;
 
     @ViewComponent
-    private EntityComboBox<Location> locationsComboBox;
-
-    @ViewComponent
     private EntityComboBox<Room> roomsComboBox;
 
     @ViewComponent
@@ -40,6 +44,15 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
 
     @ViewComponent
     private EntityComboBox<FaultType> faultTypesComboBox;
+
+    @ViewComponent
+    private CollectionLoader<RepairRequestEquipment> equipmentListDl;
+
+    @ViewComponent
+    private InstanceContainer<RepairRequest> repairRequestDc;
+
+    @ViewComponent
+    private DataGrid<RepairRequestEquipment> equipmentDataGrid;
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<RepairRequest> event) {
@@ -137,5 +150,28 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         } else {
             faultTypesComboBox.setItems(Collections.emptyList());
         }
+    }
+
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        RepairRequest repairRequest = repairRequestDc.getItem();
+        equipmentListDl.setParameter("repairRequest", repairRequest);
+        equipmentListDl.load();
+    }
+
+    public void createRepairRequestEquipment() {
+        RepairRequestEquipment repairRequestEquipment = dataManager.create(RepairRequestEquipment.class);
+        RepairRequest repairRequest = repairRequestDc.getItem();
+        repairRequestEquipment.setRepairRequest(repairRequest);
+
+        dataManager.save(repairRequestEquipment);
+
+        equipmentListDl.load(); // Перезагружаем данные в таблице
+    }
+
+    // Метод для подписки на событие открытия экрана
+    @Subscribe("equipmentDataGrid.create")
+    public void onCreateButtonClick(ActionPerformedEvent event) {
+        createRepairRequestEquipment();
     }
 }

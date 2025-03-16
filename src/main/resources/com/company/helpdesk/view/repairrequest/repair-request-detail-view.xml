@@ -24,6 +24,10 @@
                 </property>
                 <property name="faultType" fetchPlan="_instance_name"/>
                 <property name="userSupport" fetchPlan="_base"/>
+                <property name="equipmentList">
+                    <property name="equipment"/>
+                    <property name="description"/>
+                </property>
             </fetchPlan>
             <loader id="repairRequestDl"/>
         </instance>
@@ -65,9 +69,26 @@
                 </query>
             </loader>
         </collection>
+        <collection id="repairRequestsDc" class="com.company.helpdesk.entity.RepairRequest">
+            <fetchPlan extends="_base"/>
+            <loader id="repairRequestsDl"/>
+        </collection>
+        <collection id="equipmentListDc" class="com.company.helpdesk.entity.RepairRequestEquipment">
+            <fetchPlan extends="_base">
+                <property name="equipment" fetchPlan="_instance_name">
+                    <property name="model"/>
+                    <property name="serialNumber"/>
+                </property>
+            </fetchPlan>
+            <loader id="equipmentListDl">
+                <query><![CDATA[select e from RepairRequestEquipment e where e.repairRequest = :repairRequest]]></query>
+            </loader>
+        </collection>
     </data>
     <facets>
-        <dataLoadCoordinator auto="true"/>
+        <dataLoadCoordinator auto="true">
+            <refresh loader="equipmentListDl">onContainerItemChanged="repairRequestDc" param="repairRequest"</refresh>
+        </dataLoadCoordinator>
     </facets>
     <actions>
         <action id="saveAction" type="detail_saveClose"/>
@@ -85,6 +106,7 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <textField id="phoneNumberField" property="phoneNumber"/>
             <entityComboBox id="locationsComboBox"
                             itemsContainer="locationsDc"
                             dataContainer="repairRequestDc"
@@ -123,7 +145,32 @@
             </entityComboBox>
             <checkbox id="recognizedByAIField" property="recognizedByAI"/>
             <fileUploadField id="audioFileField" property="audioFile"/>
-            <textField id="phoneNumberField" property="phoneNumber"/>
+
+            <!-- Панель кнопок для управления оборудованием -->
+            <hbox id="buttonsPanel" classNames="buttons-panel">
+                <button id="createBtn" action="equipmentDataGrid.create"/>
+                <button id="removeBtn" action="equipmentDataGrid.remove"/>
+            </hbox>
+            <!-- Таблица с оборудованием -->
+            <dataGrid width="100%" dataContainer="equipmentListDc" id="equipmentDataGrid" editorBuffered="true">
+                <columns>
+                    <column property="equipment" editable="true"/>
+                    <column property="faultType" editable="true"/>
+                    <column property="description" editable="true"/>
+                    <column property="euipmentType" editable="true"/>
+
+                    <editorActionsColumn>
+                        <editButton text="Изменить" icon="PENCIL"/>
+                        <saveButton icon="CHECK" themeNames="success"/>
+                        <cancelButton icon="CLOSE" themeNames="error"/>
+                    </editorActionsColumn>
+                </columns>
+                <actions>
+                    <action id="create" type="list_create"/>
+                    <action id="remove" type="list_remove"/>
+                </actions>
+            </dataGrid>
+            <checkbox id="isDraftField" property="isDraft" value="true"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>
