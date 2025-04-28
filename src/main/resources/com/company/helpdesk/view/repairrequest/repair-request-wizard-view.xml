@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://repairRequestWizardView.title">
+    <layout>
+        <!-- Контейнер для карточек -->
+        <div id="contentBox" classNames="wizard-body"/>
+    </layout>
+</view>
