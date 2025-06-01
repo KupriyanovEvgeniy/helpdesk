@@ -146,30 +146,30 @@
             <checkbox id="recognizedByAIField" property="recognizedByAI"/>
             <fileUploadField id="audioFileField" property="audioFile"/>
 
-            <!-- Панель кнопок для управления оборудованием -->
-            <hbox id="buttonsPanel" classNames="buttons-panel">
-                <button id="createBtn" action="equipmentDataGrid.create"/>
-                <button id="removeBtn" action="equipmentDataGrid.remove"/>
-            </hbox>
-            <!-- Таблица с оборудованием -->
-            <dataGrid width="100%" dataContainer="equipmentListDc" id="equipmentDataGrid" editorBuffered="true">
-                <columns>
-                    <column property="equipment" editable="true"/>
-                    <column property="faultType" editable="true"/>
-                    <column property="description" editable="true"/>
-                    <column property="euipmentType" editable="true"/>
+<!--            &lt;!&ndash; Панель кнопок для управления оборудованием &ndash;&gt;-->
+<!--            <hbox id="buttonsPanel" classNames="buttons-panel">-->
+<!--                <button id="createBtn" action="equipmentDataGrid.create"/>-->
+<!--                <button id="removeBtn" action="equipmentDataGrid.remove"/>-->
+<!--            </hbox>-->
+<!--            &lt;!&ndash; Таблица с оборудованием &ndash;&gt;-->
+<!--            <dataGrid width="100%" dataContainer="equipmentListDc" id="equipmentDataGrid" editorBuffered="true">-->
+<!--                <columns>-->
+<!--                    <column property="equipment" editable="true"/>-->
+<!--                    <column property="faultType" editable="true"/>-->
+<!--                    <column property="description" editable="true"/>-->
+<!--                    <column property="euipmentType" editable="true"/>-->
 
-                    <editorActionsColumn>
-                        <editButton text="Изменить" icon="PENCIL"/>
-                        <saveButton icon="CHECK" themeNames="success"/>
-                        <cancelButton icon="CLOSE" themeNames="error"/>
-                    </editorActionsColumn>
-                </columns>
-                <actions>
-                    <action id="create" type="list_create"/>
-                    <action id="remove" type="list_remove"/>
-                </actions>
-            </dataGrid>
+<!--                    <editorActionsColumn>-->
+<!--                        <editButton text="Изменить" icon="PENCIL"/>-->
+<!--                        <saveButton icon="CHECK" themeNames="success"/>-->
+<!--                        <cancelButton icon="CLOSE" themeNames="error"/>-->
+<!--                    </editorActionsColumn>-->
+<!--                </columns>-->
+<!--                <actions>-->
+<!--                    <action id="create" type="list_create"/>-->
+<!--                    <action id="remove" type="list_remove"/>-->
+<!--                </actions>-->
+<!--            </dataGrid>-->
             <checkbox id="isDraftField" property="isDraft" value="true"/>
         </formLayout>
         <hbox id="detailActions">

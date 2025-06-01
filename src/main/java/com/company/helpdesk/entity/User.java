@@ -29,6 +29,8 @@ public class User implements JmixUserDetails {
     @JmixGeneratedValue
     private UUID id;
 
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
     @Version
     @Column(name = "VERSION", nullable = false)
     private Integer version;
@@ -69,6 +71,14 @@ public class User implements JmixUserDetails {
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public Boolean getSupportPeople() {
         return supportPeople;

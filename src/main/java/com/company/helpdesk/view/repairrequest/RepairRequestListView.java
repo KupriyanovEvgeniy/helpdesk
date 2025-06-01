@@ -22,6 +22,10 @@ import io.jmix.flowui.model.CollectionLoader;
 import io.jmix.flowui.model.DataContext;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Route(value = "repairRequests", layout = MainView.class)
 @ViewController(id = "RepairRequest.list")
@@ -33,29 +37,26 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
     @ViewComponent
     private DataGrid<RepairRequest> repairRequestsDataGrid;
 
-    @Autowired
-    private DataManager dataManager;
+    @ViewComponent
+    private DataContext dataContext;
 
-    @Autowired
-    private ViewNavigators viewNavigators;
+    @ViewComponent
+    private CollectionLoader<RepairRequest> repairRequestsDl;
 
     @Autowired
     private CurrentAuthentication currentAuthentication;
 
     @Autowired
-    private RepairRequestService repairRequestService;  // Сервис для завершения заявок
+    private ViewNavigators viewNavigators;
 
-    @ViewComponent
-    private DataContext dataContext;  // DataContext для управления изменениями данных
-
-    @ViewComponent
-    private CollectionLoader<RepairRequest> repairRequestsDl;
+    @Autowired
+    private com.company.helpdesk.service.RepairRequestService repairRequestService;
 
     @Override
     public void onAttach(AttachEvent event) {
         super.onAttach(event);
 
-        // Добавляем столбец для TaskStatus с возможностью сортировки
+        // Отображение статуса
         repairRequestsDataGrid.addColumn(new ComponentRenderer<>(request -> {
                     TaskStatus status = request.getTaskStatus();
                     Span statusSpan = new Span(status != null ? status.toString() : "");
@@ -82,41 +83,29 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
                 }))
                 .setHeader("Статус заявки")
                 .setAutoWidth(true)
-                .setComparator((request1, request2) -> {
-                    // Сортировка по значению перечисления TaskStatus
-                    TaskStatus status1 = request1.getTaskStatus();
-                    TaskStatus status2 = request2.getTaskStatus();
-                    return status1 != null && status2 != null ? status1.compareTo(status2) : 0;
+                .setComparator((r1, r2) -> {
+                    TaskStatus s1 = r1.getTaskStatus();
+                    TaskStatus s2 = r2.getTaskStatus();
+                    return s1 != null && s2 != null ? s1.compareTo(s2) : 0;
                 });
     }
 
-    // Метод для создания черновика заявки
-    public void createDraftRepairRequest() {
-        // Создаем новую заявку и помечаем её как черновик
-        RepairRequest repairRequest = dataManager.create(RepairRequest.class);
-        repairRequest.setIsDraft(true);  // Помечаем заявку как черновик
-
-        // Получаем текущего пользователя
-        User user = (User) currentAuthentication.getUser();
-
-        // Устанавливаем значения по умолчанию
-        repairRequest.setUser(user);
-        repairRequest.setTaskStatus(TaskStatus.CREATED); // Устанавливаем статус задачи в "CREATED"
-        repairRequest.setPriority(user.getPriority());
-
-        // Сохраняем заявку
-        dataManager.save(repairRequest);
-
-        // Навигация к экрану редактирования заявки
-        viewNavigators.detailView(this, RepairRequest.class)
-                .editEntity(repairRequest)  // Передаем только что созданную заявку
-                .navigate();  // Переход на экран редактирования
-    }
-
-    // Метод для подписки на событие открытия экрана
     @Subscribe("repairRequestsDataGrid.create")
     public void onCreateButtonClick(ActionPerformedEvent event) {
-        createDraftRepairRequest();
+        Collection<String> roles = currentAuthentication.getAuthentication().getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+
+        if (roles.contains("ROLE_user-role")) {
+            // Открываем пошаговый мастер
+            viewNavigators.view(this, RepairRequestWizardView.class).navigate();
+        } else {
+            // Открываем стандартный экран создания заявки
+            viewNavigators.detailView(this, RepairRequest.class)
+                    .newEntity()
+                    .navigate();
+        }
     }
 
     @Subscribe("completeButton")
@@ -125,7 +114,7 @@ public class RepairRequestListView extends StandardListView<RepairRequest> {
         if (repairRequest != null) {
             repairRequestService.completeRepairRequest(repairRequest);
             dataContext.save();
-            repairRequestsDl.load(); // Перезагружаем данные
+            repairRequestsDl.load(); // Обновление списка
         } else {
             Notification.show("Выберите заявку для завершения");
         }

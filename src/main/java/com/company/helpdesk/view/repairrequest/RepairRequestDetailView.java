@@ -159,19 +159,19 @@ public class RepairRequestDetailView extends StandardDetailView<RepairRequest> {
         equipmentListDl.load();
     }
 
-    public void createRepairRequestEquipment() {
-        RepairRequestEquipment repairRequestEquipment = dataManager.create(RepairRequestEquipment.class);
-        RepairRequest repairRequest = repairRequestDc.getItem();
-        repairRequestEquipment.setRepairRequest(repairRequest);
-
-        dataManager.save(repairRequestEquipment);
-
-        equipmentListDl.load(); // Перезагружаем данные в таблице
-    }
-
-    // Метод для подписки на событие открытия экрана
-    @Subscribe("equipmentDataGrid.create")
-    public void onCreateButtonClick(ActionPerformedEvent event) {
-        createRepairRequestEquipment();
-    }
+//    public void createRepairRequestEquipment() {
+//        RepairRequestEquipment repairRequestEquipment = dataManager.create(RepairRequestEquipment.class);
+//        RepairRequest repairRequest = repairRequestDc.getItem();
+//        repairRequestEquipment.setRepairRequest(repairRequest);
+//
+//        dataManager.save(repairRequestEquipment);
+//
+//        equipmentListDl.load(); // Перезагружаем данные в таблице
+//    }
+//
+//    // Метод для подписки на событие открытия экрана
+//    @Subscribe("equipmentDataGrid.create")
+//    public void onCreateButtonClick(ActionPerformedEvent event) {
+//        createRepairRequestEquipment();
+//    }
 }

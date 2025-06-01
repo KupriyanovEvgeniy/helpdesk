@@ -1,20 +1,21 @@
 package com.company.helpdesk.view.repairrequest;
 
-import com.company.helpdesk.entity.Equipment;
-import com.company.helpdesk.entity.EquipmentType;
-import com.company.helpdesk.entity.RepairRequest;
-import com.company.helpdesk.entity.Room;
+import com.company.helpdesk.entity.*;
 import com.company.helpdesk.view.main.MainView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
 import io.jmix.core.Metadata;
+import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.flowui.Notifications;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.textfield.TypedTextField;
 import io.jmix.flowui.model.DataComponents;
@@ -23,6 +24,8 @@ import io.jmix.flowui.view.*;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @Route(value = "repairRequestWizards", layout = MainView.class)
 @ViewController("RepairRequestWizard")
@@ -45,6 +48,12 @@ public class RepairRequestWizardView extends StandardView {
     @Autowired
     private DataManager dataManager;
 
+    @Autowired
+    private Notifications notifications;
+
+    @Autowired
+    private CurrentAuthentication currentAuthentication;
+
     private InstanceContainer<RepairRequest> repairRequestDc;
     private int step = 1;
 
@@ -56,56 +65,83 @@ public class RepairRequestWizardView extends StandardView {
         showStep1();
     }
 
-    private void showStep1() {
+    private void resetContentBox() {
         contentBox.removeAll();
-
         contentBox.getStyle()
+                .clear()
                 .set("display", "flex")
-                .set("flex-wrap", "wrap")
-                .set("flex-direction", "row")
+                .set("flex-direction", "column")
                 .set("justify-content", "center")
                 .set("align-items", "center")
-                .set("gap", "20px")
-                .set("width", "100%")
                 .set("height", "100%")
+                .set("width", "100%")
+                .set("gap", "20px")
                 .set("padding", "20px");
+    }
+
+    private void showStep1() {
+        resetContentBox();
+
+        Span title = uiComponents.create(Span.class);
+        title.setText("Шаг 1/3: Выберите сломанное оборудование");
+        title.getStyle()
+                .set("font-size", "24px")
+                .set("font-weight", "bold")
+                .set("width", "100%")
+                .set("text-align", "center")
+                .set("margin-bottom", "24px");
+
+        // Центрирование контента и удаление лишнего отступа
+        contentBox.getStyle()
+                .set("display", "flex")
+                .set("flex-direction", "column")
+                .set("align-items", "center")
+                .set("gap", "16px")
+                .remove("padding");
+
+        contentBox.add(title);
+
+        Div cardsContainer = uiComponents.create(Div.class);
+        cardsContainer.setWidthFull();
+        cardsContainer.getStyle()
+                .set("display", "flex")
+                .set("flex-wrap", "wrap")
+                .set("justify-content", "center")
+                .set("gap", "20px");
 
         for (EquipmentType type : EquipmentType.values()) {
-            // Карточка
             Div card = uiComponents.create(Div.class);
             card.setWidth("200px");
             card.setHeight("250px");
-            card.getStyle().set("border", "2px solid #ccc");
-            card.getStyle().set("border-radius", "12px");
-            card.getStyle().set("padding", "16px");
-            card.getStyle().set("background-color", "#f9f9f9");
-            card.getStyle().set("display", "flex");
-            card.getStyle().set("flex-direction", "column");
-            card.getStyle().set("align-items", "center");
-            card.getStyle().set("justify-content", "center");
-            card.getStyle().set("cursor", "pointer");
-            card.getStyle().set("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)");
-            card.getStyle().set("transition", "transform 0.1s ease-in-out");
+            card.getStyle()
+                    .set("border", "2px solid #ccc")
+                    .set("border-radius", "12px")
+                    .set("padding", "16px")
+                    .set("background-color", "#f9f9f9")
+                    .set("display", "flex")
+                    .set("flex-direction", "column")
+                    .set("align-items", "center")
+                    .set("justify-content", "center")
+                    .set("cursor", "pointer")
+                    .set("box-shadow", "2px 2px 6px rgba(0,0,0,0.1)")
+                    .set("transition", "transform 0.1s ease-in-out");
 
-
-            // Наведение — эффект увеличения
             card.getElement().executeJs(
                     "this.addEventListener('mouseenter', () => this.style.transform = 'scale(1.03)');" +
                             "this.addEventListener('mouseleave', () => this.style.transform = 'scale(1)');"
             );
 
-            // Картинка
             Image image = uiComponents.create(Image.class);
             image.setSrc("/images/equipment/" + type.name().toLowerCase() + ".png");
             image.setAlt(type.getId());
             image.setWidth("150px");
             image.setHeight("150px");
 
-            // Подпись
             Span label = uiComponents.create(Span.class);
             label.setText(type.getId());
-            label.getStyle().set("font-size", "1.2em");
-            label.getStyle().set("margin-top", "12px");
+            label.getStyle()
+                    .set("font-size", "1.2em")
+                    .set("margin-top", "12px");
 
             card.add(image, label);
 
@@ -114,23 +150,17 @@ public class RepairRequestWizardView extends StandardView {
                 showStep2();
             });
 
-            contentBox.add(card);
+            cardsContainer.add(card);
         }
+
+        contentBox.add(cardsContainer);
     }
 
-    private void showStep2() {
-        contentBox.removeAll();
 
-        contentBox.getStyle()
-                .set("display", "flex")
-                .set("flex-direction", "column")
-                .set("align-items", "center")
-                .set("justify-content", "center")
-                .set("gap", "20px")
-                .set("width", "100%")
-                .set("height", "100%")
-                .set("padding", "20px")
-                .set("font-size", "18px");
+
+
+    private void showStep2() {
+        resetContentBox();
 
         Span title = uiComponents.create(Span.class);
         title.setText("Шаг 2: Выберите кабинет и модель оборудования");
@@ -148,11 +178,19 @@ public class RepairRequestWizardView extends StandardView {
                 .set("width", "300px")
                 .set("font-size", "18px");
 
+        if (repairRequestDc.getItem().getRoom() == null) {
+            User currentUser = (User) currentAuthentication.getUser();
+            if (currentUser.getRoom() != null) {
+                repairRequestDc.getItem().setRoom(currentUser.getRoom());
+            }
+        }
+
+        if (repairRequestDc.getItem().getRoom() != null) {
+            roomComboBox.setValue(repairRequestDc.getItem().getRoom());
+        }
+
         Span errorRoom = uiComponents.create(Span.class);
-        errorRoom.getStyle()
-                .set("color", "red")
-                .set("font-size", "14px")
-                .set("margin-top", "-10px");
+        errorRoom.getStyle().set("color", "red").set("font-size", "14px").set("margin-top", "-10px");
         errorRoom.setVisible(false);
 
         ComboBox<Equipment> modelComboBox = uiComponents.create(ComboBox.class);
@@ -168,69 +206,62 @@ public class RepairRequestWizardView extends StandardView {
                 .set("width", "300px")
                 .set("font-size", "18px");
 
+        if (repairRequestDc.getItem().getEquipment() != null) {
+            modelComboBox.setValue(repairRequestDc.getItem().getEquipment());
+        }
+
         Span errorModel = uiComponents.create(Span.class);
-        errorModel.getStyle()
-                .set("color", "red")
-                .set("font-size", "14px")
-                .set("margin-top", "-10px");
+        errorModel.getStyle().set("color", "red").set("font-size", "14px").set("margin-top", "-10px");
         errorModel.setVisible(false);
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.getStyle()
-                .set("display", "flex")
-                .set("gap", "20px")
-                .set("margin-top", "30px");
+        buttonLayout.setWidthFull();
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        buttonLayout.setSpacing(true);
 
         Button back = uiComponents.create(Button.class);
         back.setText("Назад");
+        back.addThemeVariants(ButtonVariant.LUMO_ERROR);
         back.getStyle()
-                .set("background-color", "#f44336")
-                .set("color", "white")
-                .set("font-size", "20px")
+                .set("font-size", "18px")
                 .set("padding", "10px 20px")
                 .set("border-radius", "8px")
-                .set("width", "150px");
+                .set("width", "140px");
 
-        back.addClickListener(e -> showStep1());
+        back.addClickListener(e -> {
+                showStep1();
+                repairRequestDc.getItem().setEquipment(null);
+                repairRequestDc.getItem().setDescription(null);});
 
         Button next = uiComponents.create(Button.class);
         next.setText("Далее");
+        next.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         next.getStyle()
-                .set("background-color", "#4CAF50")
-                .set("color", "white")
-                .set("font-size", "20px")
+                .set("font-size", "18px")
                 .set("padding", "10px 20px")
                 .set("border-radius", "8px")
-                .set("width", "150px");
+                .set("width", "140px");
 
         next.addClickListener(e -> {
             boolean valid = true;
 
             if (roomComboBox.getValue() == null) {
-                roomComboBox.getStyle()
-                        .set("border", "2px solid red")
-                        .set("background-color", "#ffebee");
+                roomComboBox.getStyle().set("border", "2px solid red").set("background-color", "#ffebee");
                 errorRoom.setText("Пожалуйста, выберите кабинет");
                 errorRoom.setVisible(true);
                 valid = false;
             } else {
-                roomComboBox.getStyle()
-                        .remove("border")
-                        .remove("background-color");
+                roomComboBox.getStyle().remove("border").remove("background-color");
                 errorRoom.setVisible(false);
             }
 
             if (modelComboBox.getValue() == null) {
-                modelComboBox.getStyle()
-                        .set("border", "2px solid red")
-                        .set("background-color", "#ffebee");
+                modelComboBox.getStyle().set("border", "2px solid red").set("background-color", "#ffebee");
                 errorModel.setText("Пожалуйста, выберите модель оборудования");
                 errorModel.setVisible(true);
                 valid = false;
             } else {
-                modelComboBox.getStyle()
-                        .remove("border")
-                        .remove("background-color");
+                modelComboBox.getStyle().remove("border").remove("background-color");
                 errorModel.setVisible(false);
             }
 
@@ -243,71 +274,91 @@ public class RepairRequestWizardView extends StandardView {
 
         buttonLayout.add(back, next);
 
-        contentBox.add(
-                title,
-                roomComboBox, errorRoom,
-                modelComboBox, errorModel,
-                buttonLayout
-        );
+        contentBox.add(title, roomComboBox, errorRoom, modelComboBox, errorModel, buttonLayout);
     }
+
 
 
 
     private void showStep3() {
-        contentBox.removeAll();
+        resetContentBox();
 
-        contentBox.getStyle()
-                .set("display", "flex")
-                .set("flex-direction", "column")
-                .set("align-items", "center")
-                .set("justify-content", "center")
-                .set("gap", "20px")
-                .set("width", "100%")
-                .set("height", "100%")
-                .set("padding", "20px");
+        Span title = uiComponents.create(Span.class);
+        title.setText("Шаг 3/3: Опишите проблему");
+        title.getStyle()
+                .set("font-size", "26px")
+                .set("font-weight", "bold")
+                .set("margin-bottom", "10px")
+                .set("text-align", "center");
 
-        TextArea descriptionField = new TextArea("Опишите поломку");
-        descriptionField.setWidth("500px");
-        descriptionField.setHeight("200px");
-        descriptionField.getStyle().set("font-size", "18px");
+        TextArea descriptionField = uiComponents.create(TextArea.class);
+        descriptionField.setLabel("Описание поломки");
+        descriptionField.setPlaceholder("Напишите, что случилось...");
+        descriptionField.setWidthFull();
+        descriptionField.setHeight("250px");
+        descriptionField.getStyle()
+                .set("max-width", "600px")
+                .set("font-size", "18px");
+
+        if (repairRequestDc.getItem().getDescription() != null) {
+            descriptionField.setValue(repairRequestDc.getItem().getDescription());
+        }
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.getStyle()
-                .set("display", "flex")
-                .set("gap", "20px");
+        buttonLayout.setWidthFull();
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        buttonLayout.setSpacing(true);
 
         Button back = uiComponents.create(Button.class);
         back.setText("Назад");
+        back.addThemeVariants(ButtonVariant.LUMO_ERROR);
         back.getStyle()
-                .set("background-color", "#f44336")
-                .set("color", "white")
-                .set("font-size", "20px")
+                .set("font-size", "18px")
                 .set("padding", "10px 20px")
                 .set("border-radius", "8px")
-                .set("width", "150px");
+                .set("width", "140px");
 
-        back.addClickListener(e -> showStep2());
+        back.addClickListener(e -> {
+            repairRequestDc.getItem().setDescription(descriptionField.getValue());
+            showStep2();
+        });
 
         Button done = uiComponents.create(Button.class);
         done.setText("Готово");
+        done.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         done.getStyle()
-                .set("background-color", "#4CAF50")
-                .set("color", "white")
-                .set("font-size", "20px")
+                .set("font-size", "18px")
                 .set("padding", "10px 20px")
                 .set("border-radius", "8px")
-                .set("width", "150px");
+                .set("width", "140px");
 
         done.addClickListener(e -> {
+            if (descriptionField.getValue() == null || descriptionField.getValue().isBlank()) {
+                notifications.create("Пожалуйста, опишите поломку перед отправкой.").show();
+                return;
+            }
+
+            User currentUser = (User) currentAuthentication.getUser();
+
+            repairRequestDc.getItem().setTaskStatus(TaskStatus.CREATED);
+            repairRequestDc.getItem().setUser(currentUser);
+            repairRequestDc.getItem().setPhoneNumber(currentUser.getPhoneNumber());
+            repairRequestDc.getItem().setLocation(currentUser.getLocation());
+            repairRequestDc.getItem().setPriority(currentUser.getPriority());
             repairRequestDc.getItem().setDescription(descriptionField.getValue());
-            System.out.println("Готово: " + repairRequestDc.getItem());
-            // TODO: перейти на детальную форму, сохранить или передать дальше
+
+            dataManager.save(repairRequestDc.getItem());
+            notifications.create("Заявка успешно создана!").show();
+
+            showStep1(); // Сброс или переход
         });
 
         buttonLayout.add(back, done);
-
-        contentBox.add(descriptionField, buttonLayout);
+        contentBox.add(title, descriptionField, buttonLayout);
     }
+
+
+
 
 
 }
