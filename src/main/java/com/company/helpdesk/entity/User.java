@@ -109,7 +109,6 @@ public class User implements JmixUserDetails {
         return location;
     }
 
-    @InstanceName
     public void setLocation(Location location) {
         this.location = location;
     }

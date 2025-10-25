@@ -11,6 +11,7 @@
               title="msg://com.company.helpdesk.view.repairrequest/repairRequestListView.title"/>
         <item view="RepairRequestHistory.list"
               title="msg://com.company.helpdesk.view.repairrequesthistory/repairRequestHistoryListView.title"/>
+        <item view="Calendar" title="msg://com.company.helpdesk.view.calendar/calendar.title"/>
 
     </menu>
 

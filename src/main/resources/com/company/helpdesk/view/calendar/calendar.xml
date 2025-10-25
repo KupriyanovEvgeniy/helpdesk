@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://calendar.title">
+    <layout classNames="calendar-folder">
+        <div classNames="calendar">
+            <section classNames="buttonNavigations">
+                <div classNames="arrows">
+                    <button icon="vaadin:angle-left"/>
+                    <h3 text="hi"/>
+                    <button icon="vaadin:angle-right"/>
+                </div>
+            </section>
+            <section classNames="day-of-week">
+                <p classNames="day" text="Пн"/>
+                <p classNames="day" text="Вт"/>
+                <p classNames="day" text="Ср"/>
+                <p classNames="day" text="Чт"/>
+                <p classNames="day" text="Пт"/>
+                <p classNames="day" text="Сб"/>
+                <p classNames="day" text="Вс"/>
+            </section>
+            <section classNames="calendar-tiles">
+                <div classNames="calendar-row" css="--margin: 0">
+                    <button classNames="calendar-buttons" text="1"/>
+                    <button classNames="calendar-buttons" text="2"/>
+                    <button classNames="calendar-buttons" text="3"/>
+                    <button classNames="calendar-buttons" text="4"/>
+                    <button classNames="calendar-buttons" text="5"/>
+                    <button classNames="calendar-buttons" text="6"/>
+                    <button classNames="calendar-buttons" text="7"/>
+                </div>
+                <div classNames="calendar-row" css="--margin: 5%">
+                    <button classNames="calendar-buttons" text="8"/>
+                    <button classNames="calendar-buttons" text="9"/>
+                    <button classNames="calendar-buttons" text="10"/>
+                    <button classNames="calendar-buttons" text="11"/>
+                    <button classNames="calendar-buttons" text="12"/>
+                    <button classNames="calendar-buttons" text="13"/>
+                    <button classNames="calendar-buttons" text="14"/>
+                </div>
+                <div classNames="calendar-row" css="--margin: 5%">
+                    <button classNames="calendar-buttons" text="15"/>
+                    <button classNames="calendar-buttons" text="16"/>
+                    <button classNames="calendar-buttons" text="17"/>
+                    <button classNames="calendar-buttons" text="18"/>
+                    <button classNames="calendar-buttons" text="19"/>
+                    <button classNames="calendar-buttons" text="20"/>
+                    <button classNames="calendar-buttons" text="21"/>
+                </div>
+                <div classNames="calendar-row" css="--margin: 5%">
+                    <button classNames="calendar-buttons" text="22"/>
+                    <button classNames="calendar-buttons" text="23"/>
+                    <button classNames="calendar-buttons" text="24"/>
+                    <button classNames="calendar-buttons" text="25"/>
+                    <button classNames="calendar-buttons" text="26"/>
+                    <button classNames="calendar-buttons" text="27"/>
+                    <button classNames="calendar-buttons" text="28"/>
+                </div>
+                <div classNames="calendar-row" css="--margin: 5%">
+                    <button classNames="calendar-buttons" text="29"/>
+                    <button classNames="calendar-buttons" text="30"/>
+                    <button classNames="calendar-buttons" text="31"/>
+                    <button classNames="calendar-buttons" text="1"/>
+                    <button classNames="calendar-buttons" text="2"/>
+                    <button classNames="calendar-buttons" text="3"/>
+                    <button classNames="calendar-buttons" text="4"/>
+                </div>
+            </section>
+        </div>
+    </layout>
+</view>

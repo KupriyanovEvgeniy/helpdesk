@@ -1,1 +1,63 @@
-/* Define your styles here */
+html{
+    box-sizing: border-box;
+    height: 100%;
+}
+.calendar-folder{
+    align-items: center;
+    background: aquamarine;
+    display: flex;
+    font-family: 'Times New Roman', Times, serif;
+    font-display: swap;
+    height: inherit;
+    justify-content: center;
+}
+.calendar{
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+    color: #232323;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.30);
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    flex-basis: 400px;
+    height: 600px;
+    padding: 15px 35px;
+}
+.buttonNavigations{
+    backdrop-filter: blur(55.5px);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.01);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+    color: #232323;
+    overflow: auto;
+    padding: 20px;
+    text-align: left;
+    width: 91%;
+}
+.day-of-week{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 15px;
+}
+.day{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+}
+.arrows{
+    display: flex;
+    justify-content: space-between;
+}
+.calendar-row{
+    display: flex;
+    justify-content: space-between;
+    margin: var(--margin) 0;
+}
+.calendar-buttons{
+    margin: 6px;
+    backdrop-filter: blur(5.5px);
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(255,255,255,0.01);
+    border-radius: 15px;
+}
