@@ -1,10 +1,10 @@
-html{
-    box-sizing: border-box;
-    height: 100%;
+@font-face {
+    font-family: '10mal12Lampen';
+    src: url(fonts/10mal12Lampen.ttf);
 }
 .calendar-folder{
     align-items: center;
-    background: aquamarine;
+    background: linear-gradient(#e6646469, #9198e59f);
     display: flex;
     font-family: 'Times New Roman', Times, serif;
     font-display: swap;
@@ -12,42 +12,92 @@ html{
     justify-content: center;
 }
 .calendar{
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
-    color: #232323;
-    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    padding: 15px;
+    border-radius: 30px;
+}
+.year-panel{
+    margin-left: 10px;
     background: rgba(255, 255, 255, 0.30);
     border: 1px solid rgba(255, 255, 255, 0.34);
-    flex-basis: 400px;
-    height: 600px;
-    padding: 15px 35px;
+    padding: 6px;
+    border-radius: 16px;
 }
-.buttonNavigations{
+.year-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    font-size: 150px;
+    font-family: '10mal12Lampen';
+    font-weight: lighter;
+    line-height: 0.6;
+    border-radius: 16px;
+    height: 390px;
+    /*background: linear-gradient(#e664640a, #9198e50a);*/
+    background: linear-gradient(#e664644b, #9198e53f);
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.493);
+}
+.calendar-main{
+    display: block;
+    flex-direction: column;
+    box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+    color: #6b6b6b;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.30);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    padding: 10px;
+}
+.panelNavigations{
     backdrop-filter: blur(55.5px);
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.01);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
-    color: #232323;
-    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
-    text-align: left;
-    width: 91%;
+}
+.buttonNavigations{
+    color: #888888;
+    background-color: rgb(255, 255, 255);
+    font-size: 30px;
+    text-align: center;
+    justify-content: center;
+    height: 50px;
+    box-shadow: 1px 1px 5px 3px rgba(100, 100, 100, 0.2);
+}
+.buttonNavigationsRight vaadin-icon {
+    padding-left: 10px;
+}
+.buttonNavigationsLeft vaadin-icon {
+    padding-right: 10px;
 }
 .day-of-week{
     display: flex;
     justify-content: space-between;
-    margin: 0 15px;
+    text-align: center;
+    font-size: 14pt;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #888888;
 }
 .day{
     display: flex;
     justify-content: space-between;
-    padding: 10px;
     align-items: center;
-}
-.arrows{
-    display: flex;
-    justify-content: space-between;
+    text-align: center;
+    margin: auto;
+    margin-bottom: -5px;
 }
 .calendar-row{
     display: flex;
@@ -57,7 +107,22 @@ html{
 .calendar-buttons{
     margin: 6px;
     backdrop-filter: blur(5.5px);
-    background: rgba(255,255,255,0.75);
+    background: rgb(255, 255, 255);
     border: 1px solid rgba(255,255,255,0.01);
-    border-radius: 15px;
+    border-radius: 10px;
+    color: #818181;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    box-shadow: 5px 5px 7px rgba(95, 95, 95, 0.15);
+}
+.month-label{
+    width: 200px;
+    margin: auto;
+    text-align: center;
+    font-family: '10mal12Lampen';
+    font-weight: 600;
+    font-size: 40px;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);;
 }
