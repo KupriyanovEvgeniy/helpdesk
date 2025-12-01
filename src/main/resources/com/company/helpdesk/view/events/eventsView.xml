@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://eventsview.title">
+      title="msg://eventsview.title"
+      focusComponent="eventsTable">
     <data readOnly="true">
         <collection id="eventsDc" class="com.company.helpdesk.entity.Events">
             <loader id="eventsDl"/>
         </collection>
     </data>
     <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="eventsTable.create"/>
+            <button id="editButton" action="eventsTable.edit"/>
+            <button id="removeButton" action="eventsTable.remove"/>
+        </hbox>
         <dataGrid id="eventsTable" width="100%" minHeight="20em" metaClass="Events">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
             <columns>
                 <column property="id"/>
                 <column property="date"/>
                 <column property="time"/>
                 <column property="label"/>
                 <column property="comment"/>
+                <column key="action" header="Actions"/>
             </columns>
         </dataGrid>
     </layout>

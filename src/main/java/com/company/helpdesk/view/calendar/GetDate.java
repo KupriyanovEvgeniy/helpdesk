@@ -69,15 +69,10 @@ public class GetDate {/*Этот класс отвечает за создани
             String buttonId = clickedButton.getId().orElse("noButtonId");
             int year = Integer.valueOf(getData[0]), month = Integer.valueOf(getData[1]), day = Integer.valueOf(buttonId);
             String queryDateParam = year + "-" + month + "-" + day;
-            List<Events> DB_objects = parentsdataManager.load(Events.class).query("SELECT c FROM Events c WHERE c.date = '"+queryDateParam+"'").list();
-            if(DB_objects.isEmpty()){
-                notifications.create("На эту дату нет никаких событий").show();
-            }
-            else{
-                DialogWindow<Eventsview> window = parentsClassDialogWindow.view(parnetsClass, Eventsview.class).build();
-                window.getView().selectQuery(queryDateParam);
-                window.open();
-            }
+            List<Events> DB_objects = parentsdataManager.load(Events.class).query("SELECT c FROM Events c WHERE c.date = '"+queryDateParam+"'").list();//Проверка выборки на null
+            DialogWindow<Eventsview> window = parentsClassDialogWindow.view(parnetsClass, Eventsview.class).build();
+            window.getView().selectQuery(queryDateParam);
+            window.open();
         });
     }
     public Collection<Component> getButtons(UiComponents uiComponent){/*Тут формируем список кнопок*/
