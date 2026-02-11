@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       title="msg://registrationView.title">
     <layout justifyContent="CENTER" alignItems="CENTER"
@@ -6,7 +5,7 @@
         <vbox id="registrationFormWrapper" width="22.5em" alignItems="CENTER"
               classNames="registration-form-layout">
             <h2 text="msg://h2.text"/>
-            <formLayout>
+            <formLayout classNames="registration-fields">
                 <textField id="usernameField" label="msg://usernameField.label" required="true"/>
                 <passwordField id="passwordField" label="msg://passwordField.label" required="true"/>
                 <textField id="lastNameField" label="msg://lastNameField.label"/>
@@ -14,6 +13,7 @@
                 <textField id="surNameField" label="msg://surNameField.label"/>
                 <textField id="emailField" label="msg://emailField.label"/>
                 <select id="jobTitleField" property="jobTitle" label="msg://jobTitleField.label"/>
+                <textField id="priority" visible="false"/>
             </formLayout>
             <button id="registerBtn" text="msg://registerBtn.text" themeNames="primary" width="100%"/>
             <button id="alreadyRegisteredBtn" text="msg://alreadyRegisteredBtn.text" themeNames="tertiary small"/>

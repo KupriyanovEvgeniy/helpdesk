@@ -14,7 +14,9 @@ import io.jmix.securityflowui.role.annotation.ViewPolicy;
 public interface UserRole {
     String CODE = "user-role";
 
-    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.MODIFY)
+
+    @EntityAttributePolicy(entityClass = RepairRequest.class, attributes = {"userSupport", "user", "location", "room", "equipmentType", "equipment", "faultType", "description"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = RepairRequest.class, actions = EntityPolicyAction.ALL)
     void repairRequest();
 
@@ -41,7 +43,7 @@ public interface UserRole {
     @EntityPolicy(entityClass = Equipment.class, actions = EntityPolicyAction.READ)
     void equipment();
 
-    @MenuPolicy(menuIds = "RepairRequest.list")
-    @ViewPolicy(viewIds = {"User.list", "Room.list", "Location.list", "Equipment.list", "FaultType.list", "RepairRequest.list", "MainView", "RepairRequest.detail"})
+    @MenuPolicy(menuIds = {"RepairRequest.list", "RepairRequestHistory.list"})
+    @ViewPolicy(viewIds = {"User.list", "Room.list", "Location.list", "Equipment.list", "FaultType.list", "RepairRequest.list", "MainView", "RepairRequestHistory.list", "RepairRequestWizard", "RepairRequest.detail"})
     void screens();
 }

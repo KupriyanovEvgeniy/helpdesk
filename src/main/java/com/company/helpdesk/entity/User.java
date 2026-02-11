@@ -1,6 +1,5 @@
 package com.company.helpdesk.entity;
 
-import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.SystemLevel;
@@ -30,6 +29,8 @@ public class User implements JmixUserDetails {
     @JmixGeneratedValue
     private UUID id;
 
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
     @Version
     @Column(name = "VERSION", nullable = false)
     private Integer version;
@@ -37,6 +38,8 @@ public class User implements JmixUserDetails {
     @Column(name = "USERNAME", nullable = false)
     private String username;
 
+    @Column(name = "SUPPORT_PEOPLE")
+    private Boolean supportPeople;
     @Secret
     @SystemLevel
     @Column(name = "PASSWORD")
@@ -51,6 +54,8 @@ public class User implements JmixUserDetails {
     private String surName;
     @Column(name = "JOB_TITLE")
     private String jobTitle;
+    @Column(name = "PRIORITY")
+    private Integer priority;
     @JoinColumn(name = "LOCATION_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
@@ -67,6 +72,30 @@ public class User implements JmixUserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getSupportPeople() {
+        return supportPeople;
+    }
+
+    public void setSupportPeople(Boolean supportPeople) {
+        this.supportPeople = supportPeople;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -80,7 +109,6 @@ public class User implements JmixUserDetails {
         return location;
     }
 
-    @InstanceName
     public void setLocation(Location location) {
         this.location = location;
     }

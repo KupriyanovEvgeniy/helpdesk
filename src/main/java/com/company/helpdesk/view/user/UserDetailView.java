@@ -1,13 +1,16 @@
 package com.company.helpdesk.view.user;
 
+import com.company.helpdesk.entity.JobTitle;
 import com.company.helpdesk.entity.User;
 import com.company.helpdesk.view.main.MainView;
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.EntityStates;
 import io.jmix.core.MessageTools;
 import io.jmix.flowui.Notifications;
+import io.jmix.flowui.component.select.JmixSelect;
 import io.jmix.flowui.component.textfield.TypedTextField;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,18 @@ import java.util.Objects;
 @ViewDescriptor(path = "user-detail-view.xml")
 @EditedEntityContainer("userDc")
 public class UserDetailView extends StandardDetailView<User> {
+    @Subscribe("jobTitleField")
+    public void onJobTitleFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixSelect<JobTitle>, JobTitle> event) {
+        JobTitle selectedJobTitle = event.getValue();
+
+        if (selectedJobTitle != null) {
+            // Устанавливаем приоритет в сущности, в зависимости от выбранного JobTitle
+            getEditedEntity().setPriority(selectedJobTitle.getPriority());
+        } else {
+            // Если JobTitle не выбрано, очищаем приоритет
+            getEditedEntity().setPriority(null);  // Можно использовать 0 или null для очистки
+        }
+    }
 
     @ViewComponent
     private TypedTextField<String> usernameField;

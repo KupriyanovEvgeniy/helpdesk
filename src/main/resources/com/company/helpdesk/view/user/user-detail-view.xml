@@ -48,6 +48,9 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <textField id="priorityField" property="priority"/>
+            <checkbox id="supportPeopleField" property="supportPeople"/>
+            <textField id="phoneNumberField" property="phoneNumber"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveAction"/>

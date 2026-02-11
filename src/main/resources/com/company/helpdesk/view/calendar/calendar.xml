@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://calendar.title">
+    <layout classNames="calendar-folder">
+        <div classNames="calendar">
+            <div classNames="calendar-main">
+                <section classNames="panelNavigations">
+                    <button id="buttonLeft" classNames="buttonNavigations buttonNavigationsLeft" icon="vaadin:chevron-left"/>
+                    <h3 id="monthLabel" classNames="month-label"/>
+                    <button id="buttonRight" classNames="buttonNavigations buttonNavigationsRight" icon="vaadin:chevron-right"/>
+                </section>
+                <section classNames="day-of-week">
+                    <p classNames="day" text="Пн"/>
+                    <p classNames="day" text="Вт"/>
+                    <p classNames="day" text="Ср"/>
+                    <p classNames="day" text="Чт"/>
+                    <p classNames="day" text="Пт"/>
+                    <p classNames="day" text="Сб"/>
+                    <p classNames="day" text="Вс"/>
+                </section>
+                <section id="mainSection" classNames="calendar-tiles">
+                </section>
+            </div>
+            <div classNames="year-panel">
+                <h1 id="yearPanel" classNames="year-text"/>
+            </div>
+        </div>
+    </layout>
+</view>

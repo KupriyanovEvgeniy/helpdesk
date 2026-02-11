@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://repairRequestEquipmentDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="repairRequestEquipmentDc"
+                  class="com.company.helpdesk.entity.RepairRequestEquipment">
+            <fetchPlan extends="_base">
+                <property name="equipment" fetchPlan="_base"/>
+                <property name="faultType" fetchPlan="_base"/>
+                <property name="repairRequest" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="repairRequestEquipmentDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="repairRequestEquipmentDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <select id="euipmentTypeField" property="euipmentType"/>
+            <entityPicker id="equipmentField" property="equipment">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="faultTypeField" property="faultType">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <textField id="descriptionField" property="description"/>
+            <entityPicker id="repairRequestField" property="repairRequest">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -1,10 +1,12 @@
 package com.company.helpdesk.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -13,7 +15,8 @@ import java.util.UUID;
         @Index(name = "IDX_REPAIR_REQUEST_ROOM", columnList = "ROOM_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_EQUIPMENT", columnList = "EQUIPMENT_ID"),
         @Index(name = "IDX_REPAIR_REQUEST_FAULT_TYPE", columnList = "FAULT_TYPE_ID"),
-        @Index(name = "IDX_REPAIR_REQUEST_LOCATION", columnList = "LOCATION_ID")
+        @Index(name = "IDX_REPAIR_REQUEST_LOCATION", columnList = "LOCATION_ID"),
+        @Index(name = "IDX_REPAIR_REQUEST_USER_SUPPORT", columnList = "USER_SUPPORT_ID")
 })
 @Entity
 public class RepairRequest {
@@ -21,9 +24,20 @@ public class RepairRequest {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+    @Column(name = "RECOGNIZED_BY_AI")
+    private Boolean recognizedByAI;
+    @Column(name = "AUDIO_FILE")
+    private String audioFile;
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
+    @Column(name = "PRIORITY")
+    private Integer priority;
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @JoinColumn(name = "USER_SUPPORT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userSupport;
     @JoinColumn(name = "LOCATION_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
@@ -41,6 +55,77 @@ public class RepairRequest {
     @InstanceName
     @Column(name = "DESCRIPTION", length = 1000)
     private String description;
+    @Column(name = "TASK_STATUS")
+    private String taskStatus;
+    @Composition
+    @OneToMany(mappedBy = "repairRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RepairRequestEquipment> equipmentList;
+    @Column(name = "IS_DRAFT")
+    private Boolean isDraft;
+
+    public Boolean getIsDraft() {
+        return isDraft;
+    }
+
+    public void setIsDraft(Boolean isDraft) {
+        this.isDraft = isDraft;
+    }
+
+    public List<RepairRequestEquipment> getEquipmentList() {
+        return equipmentList;
+    }
+
+    public void setEquipmentList(List<RepairRequestEquipment> equipmentList) {
+        this.equipmentList = equipmentList;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAudioFile() {
+        return audioFile;
+    }
+
+    public void setAudioFile(String audioFile) {
+        this.audioFile = audioFile;
+    }
+
+    public Boolean getRecognizedByAI() {
+        return recognizedByAI;
+    }
+
+    public void setRecognizedByAI(Boolean recognizedByAI) {
+        this.recognizedByAI = recognizedByAI;
+    }
+
+    public User getUserSupport() {
+        return userSupport;
+    }
+
+    public void setUserSupport(User userSupport) {
+        this.userSupport = userSupport;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus == null ? null : TaskStatus.fromId(taskStatus);
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus == null ? null : taskStatus.getId();
+    }
 
     public EquipmentType getEquipmentType() {
         return equipmentType == null ? null : EquipmentType.fromId(equipmentType);
